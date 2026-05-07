@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register - Sabscribekaro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root{--neon:#00e5ff;--neon2:#7b2fff;--neon3:#ff3cac;--bg:#04050f;--glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08);--text:#e8eaf6;--muted:#6e7a99;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:2rem 0;}
+    #particle-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+    .glow{position:fixed;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(123,47,255,0.15) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+    .container{position:relative;z-index:1;width:100%;max-width:460px;padding:1rem;}
+    .back-btn{display:inline-flex;align-items:center;gap:0.5rem;color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem;transition:color 0.3s;text-decoration:none;}
+    .back-btn:hover{color:var(--neon);}
+    .card{background:var(--glass);border:1px solid var(--glass-border);border-radius:24px;padding:2.5rem;backdrop-filter:blur(20px);}
+    .logo{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1.5rem;}
+    h2{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;letter-spacing:-1px;margin-bottom:0.3rem;}
+    .subtitle{color:var(--muted);font-size:0.9rem;margin-bottom:2rem;font-weight:300;}
+    .alert{padding:0.8rem 1rem;border-radius:12px;font-size:0.88rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:0.5rem;}
+    .alert-err{background:rgba(255,64,129,0.1);border:1px solid rgba(255,64,129,0.3);color:#ff4081;}
+    .form-group{margin-bottom:1.1rem;}
+    label{font-size:0.8rem;color:var(--muted);display:block;margin-bottom:0.45rem;font-weight:500;}
+    .input-wrap{position:relative;}
+    .input-wrap i{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:0.9rem;}
+    input{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--glass-border);border-radius:12px;padding:0.85rem 1rem 0.85rem 2.7rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:0.3s;}
+    input:focus{border-color:var(--neon);background:rgba(0,229,255,0.04);box-shadow:0 0 0 3px rgba(0,229,255,0.08);}
+    input::placeholder{color:var(--muted);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .btn{width:100%;padding:0.95rem;border-radius:99px;font-size:0.95rem;font-weight:600;background:linear-gradient(135deg,var(--neon2),var(--neon));color:#fff;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:0.3s;margin-top:0.5rem;box-shadow:0 0 25px rgba(0,229,255,0.2);}
+    .btn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 0 40px rgba(0,229,255,0.35);}
+    .perks{display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+    .perk{font-size:0.78rem;color:var(--muted);display:flex;align-items:center;gap:0.3rem;}
+    .perk i{color:var(--neon);font-size:0.75rem;}
+    .divider{text-align:center;color:var(--muted);font-size:0.82rem;margin:1.3rem 0;position:relative;}
+    .divider::before,.divider::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--glass-border);}
+    .divider::before{left:0;} .divider::after{right:0;}
+    .login-link{text-align:center;font-size:0.88rem;color:var(--muted);}
+    .login-link a{color:var(--neon);font-weight:500;}
+    .login-link a:hover{text-decoration:underline;}
+    .terms{font-size:0.75rem;color:var(--muted);text-align:center;margin-top:1rem;}
+    .terms a{color:var(--neon);}
+  </style>
+</head>
+<body>
+<canvas id="particle-canvas"></canvas>
+<div class="glow"></div>
+
+<div class="container">
+  <a href="/" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+  <div class="card">
+    <div class="logo">Sabscribekaro</div>
+    <h2>Create Account 🚀</h2>
+    <p class="subtitle">Join 50,000+ websites — it's free to start</p>
+
+    <div class="perks">
+      <span class="perk"><i class="fas fa-check"></i> Free SSL</span>
+      <span class="perk"><i class="fas fa-check"></i> 99.99% Uptime</span>
+      <span class="perk"><i class="fas fa-check"></i> 24/7 Support</span>
+    </div>
+
+    <div th:if="${error}" class="alert alert-err">
+      <i class="fas fa-exclamation-circle"></i>
+      <span th:text="${error}"></span>
+    </div>
+
+    <form method="post" th:action="@{/register}">
+      <div class="form-group">
+        <label>Full Name</label>
+        <div class="input-wrap">
+          <i class="fas fa-user"></i>
+          <input type="text" name="name" placeholder="Rahul Khanna" required/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <div class="input-wrap">
+          <i class="fas fa-envelope"></i>
+          <input type="email" name="email" placeholder="rahul@example.com" required/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-wrap">
+            <i class="fas fa-lock"></i>
+            <input type="password" name="password" placeholder="Min 6 chars" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <div class="input-wrap">
+            <i class="fas fa-lock"></i>
+            <input type="password" name="confirmPassword" placeholder="Repeat" required/>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn">Create My Account →</button>
+    </form>
+
+    <p class="terms">By registering, you agree to our <a href="#">Terms</a> & <a href="#">Privacy Policy</a></p>
+    <div class="divider">or</div>
+    <div class="login-link">Already have an account? <a href="/login">Login here</a></div>
+  </div>
+</div>
+
+<script>
+const canvas=document.getElementById('particle-canvas');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+let pts=[];
+for(let i=0;i<80;i++) pts.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.5+.3,o:Math.random()*.4+.1,c:['0,229,255','123,47,255','255,60,172'][Math.floor(Math.random()*3)]});
+(function loop(){ctx.clearRect(0,0,canvas.width,canvas.height);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>canvas.width||p.y<0||p.y>canvas.height){p.x=Math.random()*canvas.width;p.y=Math.random()*canvas.height;}ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(${p.c},${p.o})`;ctx.fill();});requestAnimationFrame(loop);})();
+</script>
+</body>
+</html>

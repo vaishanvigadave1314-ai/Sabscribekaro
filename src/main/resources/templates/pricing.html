@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sabscribekaro - Pricing</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; }
+nav { background: #2c3e50; padding: 1rem 2rem; display: flex; gap: 2rem; align-items: center; }
+nav h1 { color: white; }
+nav a { color: #ecf0f1; text-decoration: none; }
+main { padding: 2rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <h1>Sabscribekaro</h1>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/pricing}">Pricing</a>
+    </nav>
+
+    <main>
+        <h2>Pricing Plans</h2>
+        <p>Choose the plan that suits you.</p>
+    </main>
+</body>
+<script>console.log("Sabscribekaro loaded!");</script>
+</html>

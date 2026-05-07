@@ -1,0 +1,2276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartGov Docs – Government Document Maker & Tracker</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  
+</head>
+<style>
+
+/* =============================================
+   SmartGov Docs — style.css
+   Government Portal — Clean, Modern, Professional
+   ============================================= */
+
+/* ── CSS Variables ── */
+:root {
+  --primary:        #0D4D8A;
+  --primary-dark:   #083766;
+  --primary-light:  #1A6FBF;
+  --accent:         #E8A020;
+  --accent-dark:    #C8861A;
+  --success:        #1A8A50;
+  --warning:        #D97706;
+  --danger:         #DC2626;
+  --purple:         #6D3FC4;
+
+  --bg-light:       #F4F7FB;
+  --bg-card:        #FFFFFF;
+  --border-color:   #DDE4EE;
+  --text-dark:      #0F1E35;
+  --text-mid:       #3B5375;
+  --text-muted:     #6B82A0;
+  --text-light:     #A0B4CC;
+
+  --shadow-sm:      0 2px 8px rgba(13,77,138,.08);
+  --shadow-md:      0 6px 24px rgba(13,77,138,.12);
+  --shadow-lg:      0 16px 48px rgba(13,77,138,.18);
+  --radius-sm:      8px;
+  --radius-md:      14px;
+  --radius-lg:      22px;
+  --radius-xl:      32px;
+
+  --font-display:   'Sora', sans-serif;
+  --font-body:      'IBM Plex Sans', sans-serif;
+
+  --transition:     all 0.28s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background: var(--bg-light);
+  overflow-x: hidden;
+  line-height: 1.65;
+}
+
+h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); font-weight: 700; }
+
+a { text-decoration: none; transition: var(--transition); }
+
+.section-pad { padding: 90px 0; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-light); }
+::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 3px; }
+
+/* =============================================
+   NAVBAR
+   ============================================= */
+#mainNavbar {
+  background: rgba(255,255,255,0.0);
+  backdrop-filter: blur(0px);
+  padding: 18px 0;
+  transition: background 0.4s ease, box-shadow 0.4s ease, padding 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+#mainNavbar.scrolled {
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 20px rgba(13,77,138,.10);
+  padding: 12px 0;
+  border-bottom-color: var(--border-color);
+}
+#mainNavbar.scrolled .nav-link { color: var(--text-dark) !important; }
+#mainNavbar.scrolled .nav-link:hover { color: var(--primary) !important; }
+
+/* Brand */
+.brand-icon {
+  width: 40px; height: 40px;
+  background: var(--primary);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 1.1rem;
+}
+.brand-icon.small { width: 34px; height: 34px; font-size: .95rem; }
+.brand-text { display: flex; flex-direction: column; line-height: 1; }
+.brand-name { font-family: var(--font-display); font-weight: 800; font-size: 1rem; color: #fff; }
+.brand-sub  { font-size: .62rem; font-weight: 600; letter-spacing: .15em; color: rgba(255,255,255,.7); }
+#mainNavbar.scrolled .brand-name { color: var(--primary); }
+#mainNavbar.scrolled .brand-sub  { color: var(--text-muted); }
+
+.nav-link {
+  font-family: var(--font-display);
+  font-weight: 500; font-size: .88rem;
+  color: rgba(255,255,255,.9) !important;
+  padding: 6px 14px !important;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+.nav-link:hover, .nav-link.active {
+  color: #fff !important;
+  background: rgba(255,255,255,.15);
+}
+#mainNavbar.scrolled .nav-link:hover,
+#mainNavbar.scrolled .nav-link.active {
+  color: var(--primary) !important;
+  background: rgba(13,77,138,.08);
+}
+
+.btn-outline-nav {
+  border: 1.5px solid rgba(255,255,255,.6);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-weight: 600; font-size: .84rem;
+  padding: 7px 18px;
+  transition: var(--transition);
+}
+.btn-outline-nav:hover { background: rgba(255,255,255,.15); border-color: #fff; color: #fff; }
+#mainNavbar.scrolled .btn-outline-nav {
+  border-color: var(--primary); color: var(--primary);
+}
+#mainNavbar.scrolled .btn-outline-nav:hover {
+  background: var(--primary); color: #fff;
+}
+
+.btn-nav-primary {
+  background: var(--accent);
+  color: var(--primary-dark) !important;
+  border: none; border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-weight: 700; font-size: .84rem;
+  padding: 8px 20px;
+  transition: var(--transition);
+}
+.btn-nav-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+.toggler-icon {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; color: #fff; border: none; background: none;
+}
+#mainNavbar.scrolled .toggler-icon { color: var(--primary); }
+.navbar-toggler { border: none; box-shadow: none !important; }
+.navbar-toggler:focus { box-shadow: none; }
+
+/* =============================================
+   HERO SECTION
+   ============================================= */
+.hero-section {
+  position: relative;
+  background: linear-gradient(135deg, #0D4D8A 0%, #1A6FBF 45%, #083766 100%);
+  overflow: hidden;
+}
+.hero-bg-overlay {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(26,111,191,.4) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(8,55,102,.6) 0%, transparent 60%);
+  z-index: 1;
+}
+.hero-grid-pattern {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-content { position: relative; z-index: 2; }
+
+.hero-badge {
+  display: inline-flex; align-items: center;
+  background: rgba(255,255,255,.15); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.25);
+  color: rgba(255,255,255,.95);
+  font-family: var(--font-display); font-weight: 500; font-size: .82rem;
+  padding: 6px 16px; border-radius: 100px;
+  letter-spacing: .04em; margin-bottom: 24px;
+}
+.hero-title {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  color: #fff; line-height: 1.12;
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+.title-highlight {
+  background: linear-gradient(90deg, #FFC842, #FFB020);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-subtitle {
+  font-size: 1.05rem; color: rgba(255,255,255,.80);
+  max-width: 520px; margin-bottom: 32px; line-height: 1.7;
+}
+.hero-stats {
+  display: flex; align-items: center; gap: 0;
+  background: rgba(255,255,255,.10); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: var(--radius-md);
+  padding: 18px 24px; margin-bottom: 36px;
+  max-width: 440px;
+}
+.stat-item { flex: 1; text-align: center; }
+.stat-num { display: block; font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; color: #fff; }
+.stat-label { font-size: .72rem; color: rgba(255,255,255,.65); font-weight: 500; letter-spacing: .04em; text-transform: uppercase; }
+.stat-divider { width: 1px; height: 40px; background: rgba(255,255,255,.2); }
+
+.btn-hero-primary {
+  background: var(--accent); color: var(--primary-dark);
+  font-family: var(--font-display); font-weight: 700; font-size: .92rem;
+  padding: 13px 28px; border-radius: var(--radius-sm); border: none;
+  transition: var(--transition); display: inline-flex; align-items: center;
+}
+.btn-hero-primary:hover { background: var(--accent-dark); color: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,160,32,.4); }
+
+.btn-hero-outline {
+  background: rgba(255,255,255,.12); color: #fff;
+  font-family: var(--font-display); font-weight: 600; font-size: .92rem;
+  padding: 12px 28px; border-radius: var(--radius-sm); border: 1.5px solid rgba(255,255,255,.4);
+  transition: var(--transition); display: inline-flex; align-items: center;
+  backdrop-filter: blur(6px);
+}
+.btn-hero-outline:hover { background: rgba(255,255,255,.22); color: #fff; border-color: rgba(255,255,255,.7); transform: translateY(-2px); }
+
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* Floating doc cards */
+.hero-card-group { position: relative; width: 340px; height: 380px; }
+.hero-illustration {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11rem; color: rgba(255,255,255,.06);
+}
+.floating-doc-card {
+  position: absolute;
+  background: rgba(255,255,255,.14); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 14px;
+  color: #fff; font-family: var(--font-display);
+  animation: float 4s ease-in-out infinite;
+  min-width: 180px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.2);
+}
+.floating-doc-card i { font-size: 1.8rem; }
+.fdc-title { font-weight: 700; font-size: .92rem; }
+.fdc-status { font-size: .72rem; font-weight: 600; margin-top: 2px; border-radius: 4px; display: inline-block; padding: 1px 8px; }
+.fdc-status.approved { background: rgba(26,138,80,.3); color: #7DFFC0; }
+.fdc-status.pending  { background: rgba(217,119,6,.3); color: #FFD580; }
+
+.card-1 { top: 20px; left: 20px; animation-delay: 0s; }
+.card-2 { top: 130px; right: 10px; animation-delay: 1.3s; }
+.card-3 { bottom: 40px; left: 40px; animation-delay: 0.7s; }
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.hero-wave { position: absolute; bottom: 0; left: 0; right: 0; line-height: 0; z-index: 3; }
+.hero-wave svg { width: 100%; height: 80px; }
+
+/* =============================================
+   SECTION HEADERS
+   ============================================= */
+.section-tag {
+  display: inline-block;
+  font-family: var(--font-display); font-weight: 700; font-size: .75rem;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--primary); background: rgba(13,77,138,.08);
+  padding: 5px 14px; border-radius: 100px; margin-bottom: 14px;
+  border: 1px solid rgba(13,77,138,.14);
+}
+.section-title {
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  color: var(--text-dark); margin-bottom: 12px; line-height: 1.2;
+}
+.section-desc { color: var(--text-muted); max-width: 560px; margin: 0 auto; font-size: .97rem; }
+
+/* =============================================
+   SERVICES SECTION
+   ============================================= */
+.services-section { background: var(--bg-light); }
+
+.service-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  height: 100%;
+  transition: var(--transition);
+  position: relative; overflow: hidden;
+}
+.service-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.35s ease;
+}
+.service-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: rgba(13,77,138,.2); }
+.service-card:hover::before { transform: scaleX(1); }
+
+.service-icon-wrap {
+  width: 60px; height: 60px; border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; margin-bottom: 20px; transition: var(--transition);
+}
+.service-card:hover .service-icon-wrap { transform: scale(1.1) rotate(-3deg); }
+.icon-blue   { background: rgba(13,77,138,.10);  color: var(--primary); }
+.icon-green  { background: rgba(26,138,80,.10);  color: var(--success); }
+.icon-orange { background: rgba(217,119,6,.10);  color: var(--warning); }
+.icon-purple { background: rgba(109,63,196,.10); color: var(--purple); }
+
+.service-title { font-size: 1.1rem; color: var(--text-dark); margin-bottom: 10px; }
+.service-desc  { font-size: .875rem; color: var(--text-muted); margin-bottom: 18px; line-height: 1.65; }
+.service-features { list-style: none; padding: 0; margin-bottom: 24px; }
+.service-features li { font-size: .84rem; color: var(--text-mid); padding: 4px 0; display: flex; align-items: center; gap: 8px; }
+.service-features li i { color: var(--success); font-size: .8rem; }
+
+.btn-service {
+  background: transparent; color: var(--primary);
+  border: 1.5px solid var(--primary); border-radius: var(--radius-sm);
+  font-family: var(--font-display); font-weight: 600; font-size: .85rem;
+  padding: 9px 20px; width: 100%; transition: var(--transition);
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+}
+.btn-service:hover { background: var(--primary); color: #fff; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(13,77,138,.3); }
+
+/* =============================================
+   HOW IT WORKS
+   ============================================= */
+.howit-section { background: var(--primary); }
+.howit-section .section-tag { background: rgba(255,255,255,.15); color: rgba(255,255,255,.9); border-color: rgba(255,255,255,.2); }
+.howit-section .section-title { color: #fff; }
+.howit-section .section-desc { color: rgba(255,255,255,.7); }
+
+.step-card {
+  background: rgba(255,255,255,.10); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: var(--radius-lg); padding: 36px 28px;
+  text-align: center; position: relative; overflow: hidden;
+  transition: var(--transition);
+}
+.step-card:hover { background: rgba(255,255,255,.16); transform: translateY(-4px); }
+.step-num {
+  position: absolute; top: 20px; right: 20px;
+  font-family: var(--font-display); font-weight: 900; font-size: 3.5rem;
+  color: rgba(255,255,255,.06); line-height: 1;
+}
+.step-icon { font-size: 2.2rem; color: var(--accent); margin-bottom: 18px; display: block; }
+.step-card h5 { color: #fff; font-size: 1.05rem; margin-bottom: 10px; }
+.step-card p  { color: rgba(255,255,255,.7); font-size: .875rem; margin: 0; line-height: 1.65; }
+
+/* =============================================
+   APPLICATION FORM
+   ============================================= */
+.form-section { background: var(--bg-light); }
+
+.app-form-wrapper {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 44px 48px;
+  box-shadow: var(--shadow-md);
+}
+@media (max-width: 576px) { .app-form-wrapper { padding: 28px 20px; } }
+
+/* Progress */
+.form-progress {
+  display: flex; align-items: center; margin-bottom: 44px;
+}
+.fp-step { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 0 0 auto; }
+.fp-circle {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 2px solid var(--border-color);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .95rem; color: var(--text-muted);
+  background: var(--bg-light); transition: var(--transition);
+}
+.fp-step span { font-family: var(--font-display); font-size: .75rem; font-weight: 600; color: var(--text-muted); transition: var(--transition); white-space: nowrap; }
+.fp-step.active .fp-circle { background: var(--primary); border-color: var(--primary); color: #fff; box-shadow: 0 0 0 6px rgba(13,77,138,.12); }
+.fp-step.active span { color: var(--primary); }
+.fp-step.done .fp-circle { background: var(--success); border-color: var(--success); color: #fff; }
+.fp-step.done span { color: var(--success); }
+.fp-line { flex: 1; height: 2px; background: var(--border-color); margin: 0 12px; margin-bottom: 28px; position: relative; overflow: hidden; }
+.fp-line::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--primary); transition: width 0.5s ease; }
+.fp-line.done::after { width: 100%; }
+
+/* Form Steps */
+.form-step { display: none; }
+.form-step.active { display: block; animation: fadeSlideIn 0.35s ease forwards; }
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.form-group-custom { margin-bottom: 4px; }
+.form-label-custom {
+  font-family: var(--font-display); font-weight: 600; font-size: .82rem;
+  color: var(--text-mid); letter-spacing: .02em; margin-bottom: 8px; display: block;
+}
+.req { color: var(--danger); }
+
+.input-wrapper { position: relative; }
+.input-icon {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  color: var(--text-muted); font-size: .95rem; z-index: 2; pointer-events: none;
+}
+.custom-input {
+  background: var(--bg-light) !important;
+  border: 1.5px solid var(--border-color) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 11px 14px 11px 42px !important;
+  font-family: var(--font-body) !important; font-size: .9rem !important;
+  color: var(--text-dark) !important;
+  transition: var(--transition) !important;
+  width: 100%;
+}
+.custom-input:focus {
+  background: #fff !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 4px rgba(13,77,138,.10) !important;
+  outline: none !important;
+}
+.custom-input::placeholder { color: var(--text-light) !important; }
+.custom-select { -webkit-appearance: none; appearance: none; cursor: pointer; }
+
+.invalid-feedback-custom { font-size: .8rem; color: var(--danger); margin-top: 5px; display: none; }
+.form-group-custom.error .custom-input { border-color: var(--danger) !important; }
+.form-group-custom.error .invalid-feedback-custom { display: block; }
+
+/* Dynamic fields */
+.dynamic-field-card {
+  background: rgba(13,77,138,.04);
+  border: 1px solid rgba(13,77,138,.12);
+  border-radius: var(--radius-md); padding: 24px;
+  animation: fadeSlideIn 0.3s ease;
+}
+.dynamic-field-title {
+  font-family: var(--font-display); font-weight: 700; font-size: .88rem;
+  color: var(--primary); margin-bottom: 18px;
+  padding-bottom: 12px; border-bottom: 1px solid rgba(13,77,138,.12);
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* File upload */
+.file-upload-zone {
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 32px 20px; text-align: center;
+  cursor: pointer; transition: var(--transition);
+  background: var(--bg-light);
+}
+.file-upload-zone:hover { border-color: var(--primary); background: rgba(13,77,138,.04); }
+.file-upload-zone.has-file { border-color: var(--success); background: rgba(26,138,80,.04); border-style: solid; }
+.upload-zone-icon { font-size: 2rem; color: var(--text-muted); margin-bottom: 10px; display: block; }
+.file-upload-zone.has-file .upload-zone-icon { color: var(--success); }
+.upload-zone-text { font-family: var(--font-display); font-weight: 600; font-size: .875rem; color: var(--text-mid); margin: 0 0 4px; }
+.upload-zone-hint { font-size: .78rem; color: var(--text-muted); margin: 0; }
+.upload-file-name { font-size: .8rem; color: var(--success); font-weight: 600; margin-top: 8px; }
+
+/* Application Summary */
+.app-summary {
+  background: rgba(13,77,138,.04);
+  border: 1px solid rgba(13,77,138,.15);
+  border-radius: var(--radius-md); padding: 20px 24px;
+}
+.summary-title { font-family: var(--font-display); font-weight: 700; font-size: .9rem; color: var(--primary); margin-bottom: 14px; }
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; }
+.summary-item { font-size: .84rem; }
+.summary-item .si-label { color: var(--text-muted); font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+.summary-item .si-value { color: var(--text-dark); font-weight: 600; }
+
+/* Step Buttons */
+.btn-step-next {
+  background: var(--primary); color: #fff;
+  font-family: var(--font-display); font-weight: 700; font-size: .88rem;
+  padding: 11px 28px; border-radius: var(--radius-sm); border: none;
+  transition: var(--transition); display: inline-flex; align-items: center;
+}
+.btn-step-next:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(13,77,138,.3); }
+
+.btn-step-back {
+  background: transparent; color: var(--text-muted);
+  font-family: var(--font-display); font-weight: 600; font-size: .88rem;
+  padding: 11px 22px; border-radius: var(--radius-sm); border: 1.5px solid var(--border-color);
+  transition: var(--transition); display: inline-flex; align-items: center;
+}
+.btn-step-back:hover { border-color: var(--primary); color: var(--primary); }
+
+.btn-submit-app {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff; font-family: var(--font-display); font-weight: 700; font-size: .92rem;
+  padding: 13px 36px; border-radius: var(--radius-sm); border: none;
+  transition: var(--transition); display: inline-flex; align-items: center;
+}
+.btn-submit-app:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(13,77,138,.4); color: #fff; }
+
+/* =============================================
+   SUCCESS MODAL
+   ============================================= */
+.success-modal { border-radius: var(--radius-xl); border: none; box-shadow: var(--shadow-lg); }
+.success-icon-wrap {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: rgba(26,138,80,.1); display: flex; align-items: center; justify-content: center;
+  margin: 0 auto;
+}
+.success-icon-wrap i { font-size: 2.8rem; color: var(--success); }
+.app-id-display {
+  background: rgba(13,77,138,.06);
+  border: 1px solid rgba(13,77,138,.15);
+  border-radius: var(--radius-sm);
+  padding: 12px 20px;
+  font-family: var(--font-display); font-weight: 800; font-size: 1.2rem;
+  color: var(--primary); letter-spacing: .06em;
+}
+
+/* =============================================
+   TRACK SECTION
+   ============================================= */
+.track-section { background: var(--bg-light); }
+
+.track-input-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg); padding: 28px 32px;
+  box-shadow: var(--shadow-sm); margin-bottom: 28px;
+}
+.track-input-row {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+.track-input-row .input-wrapper { flex: 1; min-width: 200px; }
+.track-demo-hint { font-size: .82rem; color: var(--text-muted); margin-top: 12px; }
+.demo-id {
+  font-family: var(--font-display); font-weight: 700; font-size: .82rem;
+  color: var(--primary); cursor: pointer; text-decoration: underline dotted;
+  transition: var(--transition);
+}
+.demo-id:hover { color: var(--primary-dark); }
+
+.btn-track {
+  background: var(--primary); color: #fff;
+  font-family: var(--font-display); font-weight: 700; font-size: .88rem;
+  padding: 11px 26px; border-radius: var(--radius-sm); border: none;
+  transition: var(--transition); display: inline-flex; align-items: center;
+  white-space: nowrap;
+}
+.btn-track:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(13,77,138,.3); color: #fff; }
+
+.track-result {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg); padding: 32px;
+  box-shadow: var(--shadow-sm);
+  animation: fadeSlideIn 0.4s ease;
+}
+.track-result-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 28px; flex-wrap: wrap; gap: 12px;
+}
+.result-app-id { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; color: var(--primary); }
+.result-doc-type { font-size: .85rem; color: var(--text-muted); margin-top: 4px; }
+.result-badge {
+  font-family: var(--font-display); font-weight: 700; font-size: .82rem;
+  padding: 6px 16px; border-radius: 100px;
+}
+.result-badge.approved { background: rgba(26,138,80,.1); color: var(--success); border: 1px solid rgba(26,138,80,.2); }
+.result-badge.pending  { background: rgba(217,119,6,.1);  color: var(--warning); border: 1px solid rgba(217,119,6,.2); }
+.result-badge.rejected { background: rgba(220,38,38,.1);  color: var(--danger);  border: 1px solid rgba(220,38,38,.2); }
+
+/* Timeline */
+.status-timeline { position: relative; padding-left: 0; }
+.timeline-step {
+  display: flex; gap: 20px; margin-bottom: 8px;
+  position: relative; opacity: .35; transition: var(--transition);
+}
+.timeline-step.done, .timeline-step.active { opacity: 1; }
+.timeline-step:not(:last-child)::after {
+  content: '';
+  position: absolute; left: 21px; top: 44px; bottom: -8px;
+  width: 2px; background: var(--border-color); z-index: 0;
+}
+.timeline-step.done:not(:last-child)::after { background: var(--success); }
+
+.timeline-icon {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 2px solid var(--border-color);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .95rem; color: var(--text-muted);
+  background: var(--bg-light); flex-shrink: 0; position: relative; z-index: 1;
+  transition: var(--transition);
+}
+.timeline-step.done .timeline-icon { background: var(--success); border-color: var(--success); color: #fff; box-shadow: 0 0 0 6px rgba(26,138,80,.12); }
+.timeline-step.active .timeline-icon { background: var(--primary); border-color: var(--primary); color: #fff; box-shadow: 0 0 0 6px rgba(13,77,138,.12); }
+.timeline-step.rejected .timeline-icon { background: var(--danger); border-color: var(--danger); color: #fff; box-shadow: 0 0 0 6px rgba(220,38,38,.12); }
+
+.timeline-content { padding: 10px 0 20px; }
+.tl-title { font-family: var(--font-display); font-weight: 700; font-size: .95rem; color: var(--text-dark); margin-bottom: 4px; }
+.tl-desc  { font-size: .85rem; color: var(--text-muted); margin-bottom: 6px; }
+.tl-date  { font-size: .78rem; color: var(--text-light); font-weight: 600; font-family: var(--font-display); }
+
+/* =============================================
+   DASHBOARD SECTION
+   ============================================= */
+.dashboard-section { background: #fff; }
+
+.dashboard-card {
+  border-radius: var(--radius-lg); padding: 28px;
+  position: relative; overflow: hidden; transition: var(--transition);
+  border: 1px solid transparent;
+}
+.dashboard-card:hover { transform: translateY(-4px); }
+
+.dashboard-card::before {
+  content: ''; position: absolute; inset: 0;
+  opacity: .08; border-radius: var(--radius-lg);
+}
+.dash-blue  { background: linear-gradient(135deg, #E8F0FF, #F0F5FF); border-color: rgba(13,77,138,.12); }
+.dash-green { background: linear-gradient(135deg, #E6F7EE, #F0FBF4); border-color: rgba(26,138,80,.12); }
+.dash-orange{ background: linear-gradient(135deg, #FFF5E6, #FFF9F0); border-color: rgba(217,119,6,.12); }
+.dash-red   { background: linear-gradient(135deg, #FFECEC, #FFF5F5); border-color: rgba(220,38,38,.12); }
+
+.dash-icon { font-size: 1.8rem; margin-bottom: 14px; }
+.dash-blue  .dash-icon { color: var(--primary); }
+.dash-green .dash-icon { color: var(--success); }
+.dash-orange.dash-icon { color: var(--warning); }
+.dash-red   .dash-icon { color: var(--danger); }
+.dash-orange .dash-icon { color: var(--warning); }
+
+.dash-num   { font-family: var(--font-display); font-weight: 900; font-size: 2.6rem; line-height: 1; color: var(--text-dark); margin-bottom: 6px; }
+.dash-label { font-size: .82rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px; }
+.dash-trend { font-size: .78rem; font-weight: 600; font-family: var(--font-display); display: flex; align-items: center; gap: 4px; }
+.dash-trend.up      { color: var(--success); }
+.dash-trend.down    { color: var(--danger); }
+.dash-trend.neutral { color: var(--text-muted); }
+
+/* Recent Table */
+.recent-table-wrap {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg); overflow: hidden;
+}
+.recent-table-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 24px; border-bottom: 1px solid var(--border-color);
+}
+.recent-table-header h5 { font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: var(--text-dark); margin: 0; }
+.custom-select-sm {
+  border: 1.5px solid var(--border-color) !important;
+  border-radius: var(--radius-sm) !important;
+  font-family: var(--font-display) !important; font-size: .82rem !important;
+  color: var(--text-mid) !important; padding: 5px 10px !important;
+  background: var(--bg-light) !important;
+}
+.custom-select-sm:focus { box-shadow: none !important; border-color: var(--primary) !important; }
+
+.custom-table { margin: 0; }
+.custom-table thead th {
+  background: var(--bg-light);
+  font-family: var(--font-display); font-weight: 700; font-size: .78rem;
+  color: var(--text-mid); text-transform: uppercase; letter-spacing: .08em;
+  padding: 12px 24px; border-bottom: 1px solid var(--border-color); border-top: none;
+}
+.custom-table tbody td {
+  padding: 14px 24px; font-size: .875rem; color: var(--text-dark);
+  border-bottom: 1px solid var(--border-color); vertical-align: middle;
+}
+.custom-table tbody tr:last-child td { border-bottom: none; }
+.custom-table tbody tr { transition: var(--transition); }
+.custom-table tbody tr:hover { background: rgba(13,77,138,.03); }
+
+.app-id-tag {
+  font-family: var(--font-display); font-weight: 700; font-size: .8rem;
+  color: var(--primary); background: rgba(13,77,138,.08);
+  padding: 3px 10px; border-radius: 5px;
+}
+.status-badge {
+  font-family: var(--font-display); font-weight: 700; font-size: .75rem;
+  padding: 4px 12px; border-radius: 100px;
+}
+.status-badge.approved { background: rgba(26,138,80,.1); color: var(--success); }
+.status-badge.pending  { background: rgba(217,119,6,.1);  color: var(--warning); }
+.status-badge.rejected { background: rgba(220,38,38,.1);  color: var(--danger); }
+
+.btn-action {
+  background: transparent; border: 1.5px solid var(--border-color);
+  color: var(--text-mid); font-family: var(--font-display); font-weight: 600;
+  font-size: .78rem; padding: 5px 14px; border-radius: 6px;
+  transition: var(--transition);
+}
+.btn-action:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+/* =============================================
+   CTA SECTION
+   ============================================= */
+.cta-section { background: var(--primary-dark); padding: 70px 0; }
+.cta-inner {
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius-xl); padding: 52px 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px; flex-wrap: wrap;
+  position: relative; overflow: hidden;
+}
+.cta-inner::before {
+  content: '';
+  position: absolute; right: -40px; top: -40px;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: rgba(255,255,255,.04);
+}
+.cta-text h3 { color: #fff; font-size: 1.7rem; margin-bottom: 8px; }
+.cta-text p  { color: rgba(255,255,255,.7); font-size: .92rem; margin: 0; max-width: 500px; }
+.cta-btns { display: flex; gap: 14px; flex-wrap: wrap; flex-shrink: 0; }
+
+.btn-cta-primary {
+  background: var(--accent); color: var(--primary-dark);
+  font-family: var(--font-display); font-weight: 700; font-size: .9rem;
+  padding: 12px 28px; border-radius: var(--radius-sm); border: none;
+  transition: var(--transition); display: inline-flex; align-items: center;
+}
+.btn-cta-primary:hover { background: var(--accent-dark); color: var(--primary-dark); transform: translateY(-2px); }
+
+.btn-cta-outline {
+  background: transparent; color: #fff;
+  font-family: var(--font-display); font-weight: 600; font-size: .9rem;
+  padding: 11px 28px; border-radius: var(--radius-sm); border: 1.5px solid rgba(255,255,255,.4);
+  transition: var(--transition); display: inline-flex; align-items: center;
+}
+.btn-cta-outline:hover { background: rgba(255,255,255,.12); color: #fff; border-color: rgba(255,255,255,.7); transform: translateY(-2px); }
+
+/* =============================================
+   FOOTER
+   ============================================= */
+.site-footer { background: #07263E; }
+.footer-top { padding: 64px 0 40px; border-bottom: 1px solid rgba(255,255,255,.08); }
+
+.footer-brand .brand-name { color: #fff; }
+.footer-brand .brand-sub  { color: rgba(255,255,255,.5); }
+.footer-about { color: rgba(255,255,255,.55); font-size: .88rem; line-height: 1.7; max-width: 320px; }
+
+.social-links { display: flex; gap: 10px; }
+.social-link {
+  width: 36px; height: 36px; border-radius: var(--radius-sm);
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.6); font-size: .9rem; transition: var(--transition);
+}
+.social-link:hover { background: var(--primary); border-color: var(--primary); color: #fff; transform: translateY(-2px); }
+
+.footer-heading {
+  font-family: var(--font-display); font-weight: 700; font-size: .78rem;
+  color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: .14em;
+  margin-bottom: 20px;
+}
+.footer-links { list-style: none; padding: 0; }
+.footer-links li { margin-bottom: 12px; }
+.footer-links a { color: rgba(255,255,255,.6); font-size: .875rem; transition: var(--transition); }
+.footer-links a:hover { color: #fff; padding-left: 4px; }
+
+.contact-list { list-style: none; padding: 0; }
+.contact-list li {
+  display: flex; align-items: flex-start; gap: 12px;
+  color: rgba(255,255,255,.6); font-size: .875rem; margin-bottom: 14px; line-height: 1.6;
+}
+.contact-list li i { color: var(--accent); margin-top: 3px; flex-shrink: 0; }
+
+.footer-bottom {
+  padding: 20px 0;
+  background: rgba(0,0,0,.15);
+}
+.footer-bottom p { font-size: .8rem; color: rgba(255,255,255,.4); }
+.footer-bottom-links { display: flex; gap: 20px; }
+.footer-bottom-links a { font-size: .8rem; color: rgba(255,255,255,.4); transition: var(--transition); }
+.footer-bottom-links a:hover { color: rgba(255,255,255,.8); }
+
+/* =============================================
+   AUTH MODALS
+   ============================================= */
+.auth-modal {
+  border-radius: var(--radius-xl); border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-lg);
+}
+.auth-modal .modal-title { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; color: var(--text-dark); }
+.auth-modal .btn-close { background-color: var(--text-muted); border-radius: 50%; opacity: .5; }
+
+/* =============================================
+   BACK TO TOP
+   ============================================= */
+.back-to-top {
+  position: fixed; bottom: 28px; right: 28px;
+  width: 44px; height: 44px; border-radius: var(--radius-sm);
+  background: var(--primary); color: #fff; border: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; cursor: pointer; z-index: 999;
+  opacity: 0; transform: translateY(20px); pointer-events: none;
+  transition: var(--transition); box-shadow: var(--shadow-md);
+}
+.back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
+.back-to-top:hover { background: var(--primary-dark); transform: translateY(-3px); }
+
+/* =============================================
+   ANIMATIONS
+   ============================================= */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in-up.visible { opacity: 1; transform: translateY(0); }
+
+.fade-in-right {
+  opacity: 0; transform: translateX(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-in-right.visible { opacity: 1; transform: translateX(0); }
+
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 992px) {
+  .cta-inner { padding: 36px 28px; flex-direction: column; text-align: center; }
+  .cta-btns { justify-content: center; }
+  .cta-text p { margin: 0 auto; }
+}
+@media (max-width: 768px) {
+  .section-pad { padding: 64px 0; }
+  .hero-stats { flex-wrap: wrap; gap: 12px; padding: 14px 18px; }
+  .hero-stats .stat-divider { display: none; }
+  .hero-stats .stat-item { flex: 1 1 100px; }
+  .summary-grid { grid-template-columns: 1fr; }
+  .form-progress { gap: 0; }
+  .fp-step span { display: none; }
+  .track-input-row { flex-direction: column; }
+  .btn-track { width: 100%; justify-content: center; }
+}
+@media (max-width: 576px) {
+  .hero-title { font-size: 2rem; }
+  .hero-btns { flex-direction: column; }
+  .btn-hero-primary, .btn-hero-outline { justify-content: center; }
+  .recent-table-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+</style>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+      <div class="brand-icon">
+        <i class="bi bi-shield-check"></i>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">SmartGov</span>
+        <span class="brand-sub">DOCS</span>
+      </div>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="toggler-icon"><i class="bi bi-list"></i></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#apply">Apply</a></li>
+        <li class="nav-item"><a class="nav-link" href="#track">Track Status</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+      <div class="d-flex gap-2 mt-3 mt-lg-0">
+        <button class="btn btn-outline-nav" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+        <button class="btn btn-nav-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== HERO SECTION ========== -->
+<section class="hero-section" id="home">
+  <div class="hero-bg-overlay"></div>
+  <div class="hero-grid-pattern"></div>
+  <div class="container hero-content">
+    <div class="row align-items-center min-vh-100">
+      <div class="col-lg-7 col-xl-6">
+        <div class="hero-badge fade-in-up">
+          <i class="bi bi-patch-check-fill me-2"></i>Official Government Portal
+        </div>
+        <h1 class="hero-title fade-in-up delay-1">
+          Apply & Track<br />
+          <span class="title-highlight">Government Documents</span><br />
+          Easily
+        </h1>
+        <p class="hero-subtitle fade-in-up delay-2">
+          A unified platform for citizens to apply, manage, and track all essential government documents — from the comfort of your home.
+        </p>
+        <div class="hero-stats fade-in-up delay-3">
+          <div class="stat-item">
+            <span class="stat-num">2.4M+</span>
+            <span class="stat-label">Documents Issued</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-num">98%</span>
+            <span class="stat-label">Satisfaction Rate</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-num">48hr</span>
+            <span class="stat-label">Avg. Processing</span>
+          </div>
+        </div>
+        <div class="hero-btns fade-in-up delay-4">
+          <a href="#apply" class="btn btn-hero-primary">
+            <i class="bi bi-pencil-square me-2"></i>Apply Now
+          </a>
+          <a href="#track" class="btn btn-hero-outline">
+            <i class="bi bi-search me-2"></i>Track Application
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-5 col-xl-6 d-none d-lg-flex justify-content-end">
+        <div class="hero-card-group fade-in-right delay-2">
+          <div class="floating-doc-card card-1">
+            <i class="bi bi-file-earmark-text-fill"></i>
+            <div>
+              <div class="fdc-title">PAN Card</div>
+              <div class="fdc-status approved">Approved</div>
+            </div>
+          </div>
+          <div class="floating-doc-card card-2">
+            <i class="bi bi-house-fill"></i>
+            <div>
+              <div class="fdc-title">Domicile</div>
+              <div class="fdc-status pending">In Review</div>
+            </div>
+          </div>
+          <div class="floating-doc-card card-3">
+            <i class="bi bi-person-badge-fill"></i>
+            <div>
+              <div class="fdc-title">Income Cert.</div>
+              <div class="fdc-status approved">Approved</div>
+            </div>
+          </div>
+          <div class="hero-illustration">
+            <i class="bi bi-buildings-fill"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path d="M0,80 C360,120 1080,0 1440,80 L1440,120 L0,120 Z" fill="var(--bg-light)"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ========== SERVICES SECTION ========== -->
+<section class="services-section section-pad" id="services">
+  <div class="container">
+    <div class="section-header text-center fade-in-up">
+      <span class="section-tag">Our Services</span>
+      <h2 class="section-title">Documents We Process</h2>
+      <p class="section-desc">Apply for essential government documents online — no queues, no hassle.</p>
+    </div>
+
+    <div class="row g-4 mt-2">
+      <!-- PAN Card -->
+      <div class="col-sm-6 col-xl-3 fade-in-up delay-1">
+        <div class="service-card">
+          <div class="service-icon-wrap icon-blue">
+            <i class="bi bi-credit-card-2-front-fill"></i>
+          </div>
+          <h4 class="service-title">PAN Card</h4>
+          <p class="service-desc">Apply for a new PAN card or corrections to existing card details with digital verification.</p>
+          <ul class="service-features">
+            <li><i class="bi bi-check2-circle"></i> New / Correction</li>
+            <li><i class="bi bi-check2-circle"></i> 5–7 Business Days</li>
+            <li><i class="bi bi-check2-circle"></i> Digital Delivery</li>
+          </ul>
+          <a href="#apply" class="btn btn-service" onclick="setDocType('pan')">Apply Now <i class="bi bi-arrow-right ms-1"></i></a>
+        </div>
+      </div>
+
+      <!-- Income Certificate -->
+      <div class="col-sm-6 col-xl-3 fade-in-up delay-2">
+        <div class="service-card">
+          <div class="service-icon-wrap icon-green">
+            <i class="bi bi-wallet2"></i>
+          </div>
+          <h4 class="service-title">Income Certificate</h4>
+          <p class="service-desc">Get an official income certificate from the government for scholarship, loan, or subsidy purposes.</p>
+          <ul class="service-features">
+            <li><i class="bi bi-check2-circle"></i> Govt. Verified</li>
+            <li><i class="bi bi-check2-circle"></i> 3–5 Business Days</li>
+            <li><i class="bi bi-check2-circle"></i> Downloadable PDF</li>
+          </ul>
+          <a href="#apply" class="btn btn-service" onclick="setDocType('income')">Apply Now <i class="bi bi-arrow-right ms-1"></i></a>
+        </div>
+      </div>
+
+      <!-- Domicile Certificate -->
+      <div class="col-sm-6 col-xl-3 fade-in-up delay-3">
+        <div class="service-card">
+          <div class="service-icon-wrap icon-orange">
+            <i class="bi bi-house-door-fill"></i>
+          </div>
+          <h4 class="service-title">Domicile Certificate</h4>
+          <p class="service-desc">Prove your residency status in a state for educational admissions and government schemes.</p>
+          <ul class="service-features">
+            <li><i class="bi bi-check2-circle"></i> State Residency</li>
+            <li><i class="bi bi-check2-circle"></i> 7–10 Business Days</li>
+            <li><i class="bi bi-check2-circle"></i> Govt. Stamped</li>
+          </ul>
+          <a href="#apply" class="btn btn-service" onclick="setDocType('domicile')">Apply Now <i class="bi bi-arrow-right ms-1"></i></a>
+        </div>
+      </div>
+
+      <!-- Birth Certificate -->
+      <div class="col-sm-6 col-xl-3 fade-in-up delay-4">
+        <div class="service-card">
+          <div class="service-icon-wrap icon-purple">
+            <i class="bi bi-person-hearts"></i>
+          </div>
+          <h4 class="service-title">Birth Certificate</h4>
+          <p class="service-desc">Register a new birth or obtain a certified copy of birth certificate for official use.</p>
+          <ul class="service-features">
+            <li><i class="bi bi-check2-circle"></i> New / Duplicate</li>
+            <li><i class="bi bi-check2-circle"></i> 2–4 Business Days</li>
+            <li><i class="bi bi-check2-circle"></i> Legal Document</li>
+          </ul>
+          <a href="#apply" class="btn btn-service" onclick="setDocType('birth')">Apply Now <i class="bi bi-arrow-right ms-1"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== HOW IT WORKS ========== -->
+<section class="howit-section section-pad">
+  <div class="container">
+    <div class="section-header text-center fade-in-up">
+      <span class="section-tag">Process</span>
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-desc">Three simple steps to get your documents processed.</p>
+    </div>
+    <div class="row g-4 mt-2 justify-content-center">
+      <div class="col-md-4 fade-in-up delay-1">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <i class="bi bi-pencil-fill step-icon"></i>
+          <h5>Fill Application</h5>
+          <p>Select your document type and fill in the required details with your personal information.</p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-in-up delay-2">
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <i class="bi bi-cloud-upload-fill step-icon"></i>
+          <h5>Upload Documents</h5>
+          <p>Upload supporting documents like Aadhaar card, photo, and address proof securely.</p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-in-up delay-3">
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <i class="bi bi-download step-icon"></i>
+          <h5>Receive Certificate</h5>
+          <p>Track status in real-time and download your verified document once processed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== APPLICATION FORM SECTION ========== -->
+<section class="form-section section-pad" id="apply">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-9">
+        <div class="section-header text-center fade-in-up mb-5">
+          <span class="section-tag">Apply Online</span>
+          <h2 class="section-title">Submit Your Application</h2>
+          <p class="section-desc">Fill in the form below. Fields will adapt based on the document type selected.</p>
+        </div>
+
+        <div class="app-form-wrapper fade-in-up delay-1">
+          <!-- Progress Bar -->
+          <div class="form-progress">
+            <div class="fp-step active" data-step="1">
+              <div class="fp-circle"><i class="bi bi-person-fill"></i></div>
+              <span>Personal Info</span>
+            </div>
+            <div class="fp-line"></div>
+            <div class="fp-step" data-step="2">
+              <div class="fp-circle"><i class="bi bi-file-earmark-fill"></i></div>
+              <span>Document Type</span>
+            </div>
+            <div class="fp-line"></div>
+            <div class="fp-step" data-step="3">
+              <div class="fp-circle"><i class="bi bi-cloud-upload-fill"></i></div>
+              <span>Upload & Submit</span>
+            </div>
+          </div>
+
+          <form id="applicationForm" novalidate>
+            <!-- Step 1: Personal Info -->
+            <div class="form-step active" id="step1">
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <div class="form-group-custom">
+                    <label class="form-label-custom" for="fullName">Full Name <span class="req">*</span></label>
+                    <div class="input-wrapper">
+                      <i class="bi bi-person input-icon"></i>
+                      <input type="text" class="form-control custom-input" id="fullName" placeholder="Enter your full name" required />
+                    </div>
+                    <div class="invalid-feedback-custom">Please enter your full name.</div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-custom">
+                    <label class="form-label-custom" for="dob">Date of Birth <span class="req">*</span></label>
+                    <div class="input-wrapper">
+                      <i class="bi bi-calendar3 input-icon"></i>
+                      <input type="date" class="form-control custom-input" id="dob" required />
+                    </div>
+                    <div class="invalid-feedback-custom">Please select your date of birth.</div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-custom">
+                    <label class="form-label-custom" for="mobile">Mobile Number <span class="req">*</span></label>
+                    <div class="input-wrapper">
+                      <i class="bi bi-phone input-icon"></i>
+                      <input type="tel" class="form-control custom-input" id="mobile" placeholder="+91 XXXXX XXXXX" pattern="[0-9]{10}" required />
+                    </div>
+                    <div class="invalid-feedback-custom">Please enter a valid 10-digit mobile number.</div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-custom">
+                    <label class="form-label-custom" for="email">Email Address</label>
+                    <div class="input-wrapper">
+                      <i class="bi bi-envelope input-icon"></i>
+                      <input type="email" class="form-control custom-input" id="email" placeholder="your@email.com" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-custom">
+                    <label class="form-label-custom" for="address">Residential Address <span class="req">*</span></label>
+                    <div class="input-wrapper">
+                      <i class="bi bi-geo-alt input-icon" style="top:18px"></i>
+                      <textarea class="form-control custom-input" id="address" rows="3" placeholder="House No., Street, Area, City, State, PIN" required style="padding-left:44px"></textarea>
+                    </div>
+                    <div class="invalid-feedback-custom">Please enter your address.</div>
+                  </div>
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                  <button type="button" class="btn btn-step-next" onclick="nextStep(2)">
+                    Next: Document Type <i class="bi bi-arrow-right ms-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Document Type -->
+            <div class="form-step" id="step2">
+              <div class="row g-4">
+                <div class="col-md-12">
+                  <div class="form-group-custom">
+                    <label class="form-label-custom" for="docType">Document Type <span class="req">*</span></label>
+                    <div class="input-wrapper">
+                      <i class="bi bi-file-earmark-text input-icon"></i>
+                      <select class="form-control custom-input custom-select" id="docType" onchange="updateDynamicFields()" required>
+                        <option value="">— Select Document Type —</option>
+                        <option value="pan">PAN Card</option>
+                        <option value="income">Income Certificate</option>
+                        <option value="domicile">Domicile Certificate</option>
+                        <option value="birth">Birth Certificate</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Dynamic Fields Container -->
+                <div class="col-12" id="dynamicFields"></div>
+
+                <div class="col-12 d-flex justify-content-between">
+                  <button type="button" class="btn btn-step-back" onclick="nextStep(1)">
+                    <i class="bi bi-arrow-left me-2"></i>Back
+                  </button>
+                  <button type="button" class="btn btn-step-next" onclick="nextStep(3)">
+                    Next: Upload <i class="bi bi-arrow-right ms-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Upload & Submit -->
+            <div class="form-step" id="step3">
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <div class="form-group-custom">
+                    <label class="form-label-custom">Aadhaar Card <span class="req">*</span></label>
+                    <div class="file-upload-zone" id="aadhaarZone" onclick="document.getElementById('aadhaarFile').click()">
+                      <input type="file" id="aadhaarFile" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleFileUpload('aadhaar', this)" />
+                      <i class="bi bi-cloud-upload upload-zone-icon"></i>
+                      <p class="upload-zone-text">Click to upload Aadhaar</p>
+                      <p class="upload-zone-hint">PDF, JPG, PNG — Max 2MB</p>
+                      <div class="upload-file-name" id="aadhaarFileName"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-custom">
+                    <label class="form-label-custom">Passport Photo <span class="req">*</span></label>
+                    <div class="file-upload-zone" id="photoZone" onclick="document.getElementById('photoFile').click()">
+                      <input type="file" id="photoFile" accept=".jpg,.jpeg,.png" style="display:none" onchange="handleFileUpload('photo', this)" />
+                      <i class="bi bi-person-square upload-zone-icon"></i>
+                      <p class="upload-zone-text">Click to upload Photo</p>
+                      <p class="upload-zone-hint">JPG, PNG — Max 1MB</p>
+                      <div class="upload-file-name" id="photoFileName"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Application Summary -->
+                <div class="col-12">
+                  <div class="app-summary" id="appSummary" style="display:none">
+                    <h6 class="summary-title"><i class="bi bi-clipboard-check me-2"></i>Application Summary</h6>
+                    <div class="summary-grid" id="summaryContent"></div>
+                  </div>
+                </div>
+
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                  <button type="button" class="btn btn-step-back" onclick="nextStep(2)">
+                    <i class="bi bi-arrow-left me-2"></i>Back
+                  </button>
+                  <button type="submit" class="btn btn-submit-app" id="submitBtn">
+                    <span class="btn-text"><i class="bi bi-send-fill me-2"></i>Submit Application</span>
+                    <span class="btn-loading d-none"><span class="spinner-border spinner-border-sm me-2"></span>Processing...</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SUCCESS MODAL (post-submit) ========== -->
+<div class="modal fade" id="successModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content success-modal">
+      <div class="modal-body text-center p-5">
+        <div class="success-icon-wrap">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <h4 class="mt-4 mb-2">Application Submitted!</h4>
+        <p class="text-muted mb-1">Your application has been received.</p>
+        <div class="app-id-display mt-3" id="generatedAppId"></div>
+        <p class="small text-muted mt-2">Save this ID to track your application status.</p>
+        <button class="btn btn-hero-primary mt-3" data-bs-dismiss="modal" onclick="copyAppId()">
+          <i class="bi bi-clipboard me-2"></i>Copy Application ID
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TRACK APPLICATION SECTION ========== -->
+<section class="track-section section-pad" id="track">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-8">
+        <div class="section-header text-center fade-in-up mb-5">
+          <span class="section-tag">Track Status</span>
+          <h2 class="section-title">Track Your Application</h2>
+          <p class="section-desc">Enter your Application ID to view real-time status updates.</p>
+        </div>
+
+        <div class="track-input-card fade-in-up delay-1">
+          <div class="track-input-row">
+            <div class="input-wrapper flex-1">
+              <i class="bi bi-search input-icon"></i>
+              <input type="text" class="form-control custom-input" id="trackInput" placeholder="Enter Application ID (e.g. SGD-2024-001)" />
+            </div>
+            <button class="btn btn-track" onclick="trackApplication()">
+              <i class="bi bi-search me-2"></i>Track Status
+            </button>
+          </div>
+          <div class="track-demo-hint">
+            Try demo IDs: <span class="demo-id" onclick="demoTrack('SGD-2024-001')">SGD-2024-001</span>,
+            <span class="demo-id" onclick="demoTrack('SGD-2024-002')">SGD-2024-002</span>,
+            <span class="demo-id" onclick="demoTrack('SGD-2024-003')">SGD-2024-003</span>
+          </div>
+        </div>
+
+        <!-- Status Result -->
+        <div class="track-result" id="trackResult" style="display:none">
+          <div class="track-result-header">
+            <div>
+              <div class="result-app-id" id="resultAppId"></div>
+              <div class="result-doc-type" id="resultDocType"></div>
+            </div>
+            <div class="result-badge" id="resultBadge"></div>
+          </div>
+
+          <div class="status-timeline">
+            <div class="timeline-step" id="tStep1">
+              <div class="timeline-icon"><i class="bi bi-send-fill"></i></div>
+              <div class="timeline-content">
+                <div class="tl-title">Application Submitted</div>
+                <div class="tl-desc">Your application has been received and assigned an ID.</div>
+                <div class="tl-date" id="tDate1"></div>
+              </div>
+            </div>
+            <div class="timeline-step" id="tStep2">
+              <div class="timeline-icon"><i class="bi bi-eye-fill"></i></div>
+              <div class="timeline-content">
+                <div class="tl-title">Under Review</div>
+                <div class="tl-desc">Documents are being verified by the department.</div>
+                <div class="tl-date" id="tDate2"></div>
+              </div>
+            </div>
+            <div class="timeline-step" id="tStep3">
+              <div class="timeline-icon" id="finalIcon"><i class="bi bi-check2-all"></i></div>
+              <div class="timeline-content">
+                <div class="tl-title" id="finalTitle">Processing</div>
+                <div class="tl-desc" id="finalDesc">Final decision will be communicated via SMS and email.</div>
+                <div class="tl-date" id="tDate3"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== DASHBOARD SECTION ========== -->
+<section class="dashboard-section section-pad" id="dashboard">
+  <div class="container">
+    <div class="section-header text-center fade-in-up">
+      <span class="section-tag">Dashboard</span>
+      <h2 class="section-title">Application Overview</h2>
+      <p class="section-desc">A quick glance at all your submitted government document requests.</p>
+    </div>
+
+    <div class="row g-4 mt-2">
+      <div class="col-sm-6 col-xl-3 fade-in-up delay-1">
+        <div class="dashboard-card dash-blue">
+          <div class="dash-icon"><i class="bi bi-folder2-open"></i></div>
+          <div class="dash-num counter" data-target="124">0</div>
+          <div class="dash-label">Total Applications</div>
+          <div class="dash-trend up"><i class="bi bi-arrow-up-right"></i> 12% this month</div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-xl-3 fade-in-up delay-2">
+        <div class="dashboard-card dash-green">
+          <div class="dash-icon"><i class="bi bi-check-circle-fill"></i></div>
+          <div class="dash-num counter" data-target="89">0</div>
+          <div class="dash-label">Approved</div>
+          <div class="dash-trend up"><i class="bi bi-arrow-up-right"></i> 8% this month</div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-xl-3 fade-in-up delay-3">
+        <div class="dashboard-card dash-orange">
+          <div class="dash-icon"><i class="bi bi-hourglass-split"></i></div>
+          <div class="dash-num counter" data-target="27">0</div>
+          <div class="dash-label">Pending</div>
+          <div class="dash-trend neutral"><i class="bi bi-dash"></i> No change</div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-xl-3 fade-in-up delay-4">
+        <div class="dashboard-card dash-red">
+          <div class="dash-icon"><i class="bi bi-x-circle-fill"></i></div>
+          <div class="dash-num counter" data-target="8">0</div>
+          <div class="dash-label">Rejected</div>
+          <div class="dash-trend down"><i class="bi bi-arrow-down-right"></i> 3% this month</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Applications Table -->
+    <div class="recent-table-wrap mt-5 fade-in-up delay-2">
+      <div class="recent-table-header">
+        <h5>Recent Applications</h5>
+        <div class="table-filter">
+          <select class="form-select form-select-sm custom-select-sm" id="tableFilter" onchange="filterTable()">
+            <option value="all">All Status</option>
+            <option value="approved">Approved</option>
+            <option value="pending">Pending</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table custom-table">
+          <thead>
+            <tr>
+              <th>App. ID</th>
+              <th>Applicant</th>
+              <th>Document</th>
+              <th>Submitted On</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="appTableBody">
+            <tr data-status="approved">
+              <td><span class="app-id-tag">SGD-2024-001</span></td>
+              <td>Rahul Sharma</td>
+              <td><i class="bi bi-credit-card-2-front-fill me-2 text-primary"></i>PAN Card</td>
+              <td>12 Apr 2024</td>
+              <td><span class="status-badge approved">Approved</span></td>
+              <td><button class="btn btn-action" onclick="demoTrack('SGD-2024-001'); document.getElementById('track').scrollIntoView({behavior:'smooth'})">Track</button></td>
+            </tr>
+            <tr data-status="pending">
+              <td><span class="app-id-tag">SGD-2024-002</span></td>
+              <td>Priya Patel</td>
+              <td><i class="bi bi-wallet2 me-2 text-success"></i>Income Certificate</td>
+              <td>14 Apr 2024</td>
+              <td><span class="status-badge pending">Under Review</span></td>
+              <td><button class="btn btn-action" onclick="demoTrack('SGD-2024-002'); document.getElementById('track').scrollIntoView({behavior:'smooth'})">Track</button></td>
+            </tr>
+            <tr data-status="rejected">
+              <td><span class="app-id-tag">SGD-2024-003</span></td>
+              <td>Anil Desai</td>
+              <td><i class="bi bi-house-door-fill me-2 text-warning"></i>Domicile Cert.</td>
+              <td>15 Apr 2024</td>
+              <td><span class="status-badge rejected">Rejected</span></td>
+              <td><button class="btn btn-action" onclick="demoTrack('SGD-2024-003'); document.getElementById('track').scrollIntoView({behavior:'smooth'})">Track</button></td>
+            </tr>
+            <tr data-status="approved">
+              <td><span class="app-id-tag">SGD-2024-004</span></td>
+              <td>Meera Joshi</td>
+              <td><i class="bi bi-person-hearts me-2 text-purple"></i>Birth Certificate</td>
+              <td>16 Apr 2024</td>
+              <td><span class="status-badge approved">Approved</span></td>
+              <td><button class="btn btn-action">Track</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA BANNER ========== -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner fade-in-up">
+      <div class="cta-text">
+        <h3>Ready to Apply for Your Document?</h3>
+        <p>Join over 2.4 million citizens who trust SmartGov Docs for quick, secure, and verified government document processing.</p>
+      </div>
+      <div class="cta-btns">
+        <a href="#apply" class="btn btn-cta-primary">Get Started</a>
+        <a href="#contact" class="btn btn-cta-outline">Contact Support</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="site-footer" id="contact">
+  <div class="footer-top">
+    <div class="container">
+      <div class="row g-5">
+        <div class="col-lg-4">
+          <div class="footer-brand d-flex align-items-center gap-2 mb-3">
+            <div class="brand-icon small">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <div class="brand-text">
+              <span class="brand-name">SmartGov</span>
+              <span class="brand-sub">DOCS</span>
+            </div>
+          </div>
+          <p class="footer-about">India's trusted digital platform for government document processing. Fast, secure, and 100% online.</p>
+          <div class="social-links mt-4">
+            <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+            <a href="#" class="social-link"><i class="bi bi-youtube"></i></a>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+          <h6 class="footer-heading">Quick Links</h6>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#apply">Apply Now</a></li>
+            <li><a href="#track">Track Status</a></li>
+            <li><a href="#dashboard">Dashboard</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+          <h6 class="footer-heading">Documents</h6>
+          <ul class="footer-links">
+            <li><a href="#apply">PAN Card</a></li>
+            <li><a href="#apply">Income Certificate</a></li>
+            <li><a href="#apply">Domicile Certificate</a></li>
+            <li><a href="#apply">Birth Certificate</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <h6 class="footer-heading">Contact Us</h6>
+          <ul class="contact-list">
+            <li><i class="bi bi-geo-alt-fill"></i>Ministry of Digital Services, New Delhi – 110001</li>
+            <li><i class="bi bi-telephone-fill"></i>Toll Free: 1800-XXX-XXXX</li>
+            <li><i class="bi bi-envelope-fill"></i>support@smartgovdocs.gov.in</li>
+            <li><i class="bi bi-clock-fill"></i>Mon–Fri: 9:00 AM – 6:00 PM IST</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <p class="mb-0">© 2024 SmartGov Docs. Government of India Initiative. All Rights Reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Accessibility</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ========== LOGIN MODAL ========== -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content auth-modal">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title">Welcome Back</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4 pt-2">
+        <p class="text-muted small mb-4">Login to your SmartGov Docs account.</p>
+        <div class="form-group-custom mb-3">
+          <label class="form-label-custom">Mobile / Email</label>
+          <div class="input-wrapper">
+            <i class="bi bi-person input-icon"></i>
+            <input type="text" class="form-control custom-input" placeholder="Enter mobile or email" />
+          </div>
+        </div>
+        <div class="form-group-custom mb-4">
+          <label class="form-label-custom">Password</label>
+          <div class="input-wrapper">
+            <i class="bi bi-lock input-icon"></i>
+            <input type="password" class="form-control custom-input" placeholder="Enter password" />
+          </div>
+        </div>
+        <button class="btn btn-hero-primary w-100">Login <i class="bi bi-arrow-right ms-2"></i></button>
+        <p class="text-center mt-3 small">Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal" class="text-primary">Register</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== REGISTER MODAL ========== -->
+<div class="modal fade" id="registerModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content auth-modal">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title">Create Account</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4 pt-2">
+        <p class="text-muted small mb-4">Join SmartGov Docs — quick and free.</p>
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="form-group-custom">
+              <label class="form-label-custom">First Name</label>
+              <input type="text" class="form-control custom-input" placeholder="First name" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group-custom">
+              <label class="form-label-custom">Last Name</label>
+              <input type="text" class="form-control custom-input" placeholder="Last name" />
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group-custom">
+              <label class="form-label-custom">Mobile Number</label>
+              <div class="input-wrapper">
+                <i class="bi bi-phone input-icon"></i>
+                <input type="tel" class="form-control custom-input" placeholder="+91 XXXXX XXXXX" />
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group-custom">
+              <label class="form-label-custom">Password</label>
+              <div class="input-wrapper">
+                <i class="bi bi-lock input-icon"></i>
+                <input type="password" class="form-control custom-input" placeholder="Create password" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-hero-primary w-100 mt-4">Create Account <i class="bi bi-arrow-right ms-2"></i></button>
+        <p class="text-center mt-3 small">Already have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal" class="text-primary">Login</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== BACK TO TOP ========== -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="bi bi-chevron-up"></i>
+</button>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JS -->
+
+<script>
+    /* =============================================
+   SmartGov Docs — script.js
+   All interactive features & functionality
+   ============================================= */
+
+'use strict';
+
+// ── DOM Ready ──────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initNavbar();
+  initScrollAnimations();
+  initCounters();
+  initBackToTop();
+  initSmoothScroll();
+  initStep3Preview();
+});
+
+/* =============================================
+   NAVBAR — Scroll Effect & Active Link
+   ============================================= */
+function initNavbar() {
+  const navbar = document.getElementById('mainNavbar');
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const updateNavbar = () => {
+    if (window.scrollY > 60) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+
+    // Active link on scroll
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 120) current = sec.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
+    });
+  };
+
+  window.addEventListener('scroll', updateNavbar, { passive: true });
+  updateNavbar();
+
+  // Collapse mobile nav on link click
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const nav = document.getElementById('navbarNav');
+      if (nav.classList.contains('show')) {
+        const toggler = document.querySelector('.navbar-toggler');
+        toggler.click();
+      }
+    });
+  });
+}
+
+/* =============================================
+   SMOOTH SCROLL
+   ============================================= */
+function initSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = 80;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+}
+
+/* =============================================
+   SCROLL ANIMATIONS — Intersection Observer
+   ============================================= */
+function initScrollAnimations() {
+  const elements = document.querySelectorAll('.fade-in-up, .fade-in-right');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+
+  elements.forEach(el => observer.observe(el));
+}
+
+/* =============================================
+   ANIMATED COUNTERS
+   ============================================= */
+function initCounters() {
+  const counters = document.querySelectorAll('.counter');
+
+  const animateCounter = (el) => {
+    const target = parseInt(el.dataset.target);
+    const duration = 1800;
+    const step = 16;
+    const increment = target / (duration / step);
+    let current = 0;
+
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
+      }
+      el.textContent = Math.floor(current);
+    }, step);
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  counters.forEach(counter => observer.observe(counter));
+}
+
+/* =============================================
+   BACK TO TOP BUTTON
+   ============================================= */
+function initBackToTop() {
+  const btn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+}
+
+/* =============================================
+   MULTI-STEP FORM
+   ============================================= */
+let currentStep = 1;
+
+function nextStep(step) {
+  // Validate current step before proceeding
+  if (step > currentStep) {
+    if (!validateStep(currentStep)) return;
+  }
+
+  // Mark old step in progress bar
+  const fpSteps = document.querySelectorAll('.fp-step');
+  const fpLines = document.querySelectorAll('.fp-line');
+
+  // Hide all steps
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+
+  // Show target step
+  document.getElementById(`step${step}`).classList.add('active');
+
+  // Update progress indicators
+  fpSteps.forEach((fs, idx) => {
+    fs.classList.remove('active', 'done');
+    if (idx + 1 < step) fs.classList.add('done');
+    if (idx + 1 === step) fs.classList.add('active');
+  });
+
+  fpLines.forEach((line, idx) => {
+    line.classList.toggle('done', idx + 1 < step);
+  });
+
+  currentStep = step;
+
+  // Build summary on step 3
+  if (step === 3) buildSummary();
+
+  // Scroll to form
+  document.getElementById('apply').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* Validate a step's required fields */
+function validateStep(step) {
+  let valid = true;
+  const fields = document.querySelectorAll(`#step${step} [required]`);
+
+  fields.forEach(field => {
+    const group = field.closest('.form-group-custom');
+    if (!field.value.trim()) {
+      group?.classList.add('error');
+      valid = false;
+    } else {
+      group?.classList.remove('error');
+    }
+    // Mobile number pattern check
+    if (field.id === 'mobile' && field.value && !/^\d{10}$/.test(field.value.replace(/\s/g, ''))) {
+      group?.classList.add('error');
+      valid = false;
+    }
+    // Email format (optional field)
+    if (field.type === 'email' && field.value && !/\S+@\S+\.\S+/.test(field.value)) {
+      group?.classList.add('error');
+      valid = false;
+    }
+  });
+
+  // Remove error on input
+  fields.forEach(field => {
+    field.addEventListener('input', () => {
+      const group = field.closest('.form-group-custom');
+      if (field.value.trim()) group?.classList.remove('error');
+    }, { once: false });
+  });
+
+  if (!valid) {
+    showToast('Please fill in all required fields correctly.', 'error');
+  }
+  return valid;
+}
+
+/* =============================================
+   DYNAMIC FORM FIELDS
+   ============================================= */
+const docFieldsConfig = {
+  pan: {
+    title: '📋 PAN Card — Additional Details',
+    fields: [
+      { id: 'panType', type: 'select', label: 'Application Type', options: ['New PAN', 'Correction / Change', 'Duplicate'], required: true },
+      { id: 'fatherName', type: 'text', label: "Father's Name", placeholder: "Enter father's full name", required: true },
+      { id: 'aadhaarNo', type: 'text', label: 'Aadhaar Number', placeholder: '12-digit Aadhaar number', required: true },
+    ]
+  },
+  income: {
+    title: '💼 Income Certificate — Additional Details',
+    fields: [
+      { id: 'occupation', type: 'text', label: 'Occupation / Employment', placeholder: 'e.g. Farmer, Govt. Employee', required: true },
+      { id: 'annualIncome', type: 'number', label: 'Annual Income (₹)', placeholder: 'e.g. 250000', required: true },
+      { id: 'purpose', type: 'select', label: 'Purpose of Certificate', options: ['Scholarship', 'Bank Loan', 'Govt. Subsidy', 'Education Admission', 'Other'], required: true },
+    ]
+  },
+  domicile: {
+    title: '🏠 Domicile Certificate — Additional Details',
+    fields: [
+      { id: 'state', type: 'text', label: 'State of Domicile', placeholder: 'e.g. Maharashtra', required: true },
+      { id: 'yearsResident', type: 'number', label: 'Years of Residence in State', placeholder: 'e.g. 15', required: true },
+      { id: 'domPurpose', type: 'select', label: 'Purpose', options: ['College Admission', 'Government Job', 'Scholarship', 'Property Registration', 'Other'], required: true },
+    ]
+  },
+  birth: {
+    title: '👶 Birth Certificate — Additional Details',
+    fields: [
+      { id: 'placeOfBirth', type: 'text', label: 'Place of Birth (Hospital / Location)', placeholder: 'e.g. City Hospital, Pune', required: true },
+      { id: 'motherName', type: 'text', label: "Mother's Full Name", placeholder: "Enter mother's full name", required: true },
+      { id: 'certType', type: 'select', label: 'Certificate Type', options: ['New Registration', 'Duplicate Copy', 'Correction'], required: true },
+    ]
+  }
+};
+
+function updateDynamicFields() {
+  const docType = document.getElementById('docType').value;
+  const container = document.getElementById('dynamicFields');
+
+  if (!docType) {
+    container.innerHTML = '';
+    return;
+  }
+
+  const config = docFieldsConfig[docType];
+  if (!config) return;
+
+  let html = `<div class="dynamic-field-card"><div class="dynamic-field-title"><i class="bi bi-info-circle-fill"></i>${config.title}</div><div class="row g-3">`;
+
+  config.fields.forEach(field => {
+    html += `<div class="col-md-6"><div class="form-group-custom"><label class="form-label-custom" for="${field.id}">${field.label}${field.required ? ' <span class="req">*</span>' : ''}</label><div class="input-wrapper">`;
+
+    if (field.type === 'select') {
+      html += `<i class="bi bi-chevron-down input-icon" style="right:14px;left:auto;"></i><select class="form-control custom-input custom-select" id="${field.id}" ${field.required ? 'required' : ''} style="padding-left:14px !important"><option value="">— Select —</option>`;
+      field.options.forEach(opt => { html += `<option value="${opt.toLowerCase().replace(/\s+/g,'-')}">${opt}</option>`; });
+      html += `</select>`;
+    } else {
+      html += `<i class="bi bi-pencil input-icon"></i><input type="${field.type}" class="form-control custom-input" id="${field.id}" placeholder="${field.placeholder || ''}" ${field.required ? 'required' : ''} />`;
+    }
+
+    html += `</div><div class="invalid-feedback-custom">This field is required.</div></div></div>`;
+  });
+
+  html += `</div></div>`;
+  container.innerHTML = html;
+}
+
+/* Called from service card buttons */
+function setDocType(type) {
+  const el = document.getElementById('docType');
+  if (el) {
+    el.value = type;
+    updateDynamicFields();
+  }
+  // Go to step 2
+  if (currentStep < 2) nextStep(2);
+  document.getElementById('apply').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* =============================================
+   FILE UPLOAD HANDLER
+   ============================================= */
+function handleFileUpload(type, input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  // Size check
+  const maxMB = type === 'aadhaar' ? 2 : 1;
+  if (file.size > maxMB * 1024 * 1024) {
+    showToast(`File size exceeds ${maxMB}MB limit.`, 'error');
+    input.value = '';
+    return;
+  }
+
+  const zone = document.getElementById(`${type}Zone`);
+  const nameEl = document.getElementById(`${type}FileName`);
+  zone.classList.add('has-file');
+  nameEl.innerHTML = `<i class="bi bi-check-circle-fill me-1" style="color:var(--success)"></i>${file.name}`;
+  zone.querySelector('.upload-zone-icon').className = 'bi bi-check2-circle upload-zone-icon';
+}
+
+/* =============================================
+   STEP 3 SUMMARY BUILDER
+   ============================================= */
+function buildSummary() {
+  const summaryEl = document.getElementById('appSummary');
+  const contentEl = document.getElementById('summaryContent');
+
+  const name    = document.getElementById('fullName')?.value || '—';
+  const dob     = document.getElementById('dob')?.value || '—';
+  const mobile  = document.getElementById('mobile')?.value || '—';
+  const address = document.getElementById('address')?.value || '—';
+  const docSel  = document.getElementById('docType');
+  const docType = docSel ? (docSel.options[docSel.selectedIndex]?.text || '—') : '—';
+
+  const items = [
+    { label: 'Full Name',      value: name },
+    { label: 'Date of Birth',  value: dob },
+    { label: 'Mobile Number',  value: mobile },
+    { label: 'Document Type',  value: docType },
+    { label: 'Address',        value: address.length > 50 ? address.slice(0, 50) + '…' : address },
+  ];
+
+  contentEl.innerHTML = items.map(i => `
+    <div class="summary-item">
+      <div class="si-label">${i.label}</div>
+      <div class="si-value">${i.value}</div>
+    </div>
+  `).join('');
+
+  summaryEl.style.display = 'block';
+}
+
+/* Step 3 preview — live update */
+function initStep3Preview() {
+  const form = document.getElementById('applicationForm');
+  if (form) {
+    form.addEventListener('input', () => {
+      if (currentStep === 3) buildSummary();
+    });
+  }
+}
+
+/* =============================================
+   FORM SUBMISSION
+   ============================================= */
+document.getElementById('applicationForm')?.addEventListener('submit', function (e) {
+  e.preventDefault();
+  submitApplication();
+});
+
+function submitApplication() {
+  const btn = document.getElementById('submitBtn');
+  const btnText = btn.querySelector('.btn-text');
+  const btnLoad = btn.querySelector('.btn-loading');
+
+  // Show loader
+  btnText.classList.add('d-none');
+  btnLoad.classList.remove('d-none');
+  btn.disabled = true;
+
+  // Simulate API call
+  setTimeout(() => {
+    btnText.classList.remove('d-none');
+    btnLoad.classList.add('d-none');
+    btn.disabled = false;
+
+    // Generate Application ID
+    const appId = generateAppId();
+    document.getElementById('generatedAppId').textContent = appId;
+
+    // Show success modal
+    new bootstrap.Modal(document.getElementById('successModal')).show();
+
+    // Reset form
+    resetForm();
+  }, 2200);
+}
+
+function generateAppId() {
+  const year = new Date().getFullYear();
+  const num  = Math.floor(1000 + Math.random() * 9000);
+  return `SGD-${year}-${num}`;
+}
+
+let lastGeneratedId = '';
+function copyAppId() {
+  const id = document.getElementById('generatedAppId').textContent;
+  lastGeneratedId = id;
+  navigator.clipboard?.writeText(id).then(() => {
+    showToast(`Application ID "${id}" copied!`, 'success');
+  }).catch(() => {
+    showToast(`Your App ID: ${id}`, 'info');
+  });
+}
+
+function resetForm() {
+  document.getElementById('applicationForm').reset();
+  document.getElementById('dynamicFields').innerHTML = '';
+  document.getElementById('appSummary').style.display = 'none';
+  document.getElementById('aadhaarFileName').innerHTML = '';
+  document.getElementById('photoFileName').innerHTML = '';
+  document.getElementById('aadhaarZone').classList.remove('has-file');
+  document.getElementById('photoZone').classList.remove('has-file');
+  document.getElementById('aadhaarZone').querySelector('.upload-zone-icon').className = 'bi bi-cloud-upload upload-zone-icon';
+  document.getElementById('photoZone').querySelector('.upload-zone-icon').className = 'bi bi-person-square upload-zone-icon';
+  nextStep(1);
+}
+
+/* =============================================
+   APPLICATION TRACKER
+   ============================================= */
+const demoData = {
+  'SGD-2024-001': {
+    appId: 'SGD-2024-001',
+    name: 'Rahul Sharma',
+    docType: 'PAN Card',
+    status: 'approved',
+    dates: ['12 Apr 2024, 10:32 AM', '13 Apr 2024, 2:00 PM', '15 Apr 2024, 5:14 PM'],
+  },
+  'SGD-2024-002': {
+    appId: 'SGD-2024-002',
+    name: 'Priya Patel',
+    docType: 'Income Certificate',
+    status: 'pending',
+    dates: ['14 Apr 2024, 9:15 AM', '15 Apr 2024, 11:00 AM', null],
+  },
+  'SGD-2024-003': {
+    appId: 'SGD-2024-003',
+    name: 'Anil Desai',
+    docType: 'Domicile Certificate',
+    status: 'rejected',
+    dates: ['15 Apr 2024, 3:00 PM', '16 Apr 2024, 10:00 AM', '16 Apr 2024, 4:30 PM'],
+  }
+};
+
+function demoTrack(id) {
+  const input = document.getElementById('trackInput');
+  if (input) {
+    input.value = id;
+    trackApplication();
+  }
+}
+
+function trackApplication() {
+  const input = document.getElementById('trackInput');
+  const result = document.getElementById('trackResult');
+  const appId = input.value.trim().toUpperCase();
+
+  if (!appId) {
+    showToast('Please enter an Application ID.', 'error');
+    input.focus();
+    return;
+  }
+
+  // Show loading state
+  const btn = document.querySelector('.btn-track');
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Searching…';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    btn.innerHTML = '<i class="bi bi-search me-2"></i>Track Status';
+    btn.disabled = false;
+
+    const data = demoData[appId];
+    if (!data) {
+      showToast(`No application found with ID "${appId}". Try the demo IDs below.`, 'error');
+      result.style.display = 'none';
+      return;
+    }
+
+    renderTrackResult(data);
+    result.style.display = 'block';
+    result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 1000);
+}
+
+function renderTrackResult(data) {
+  document.getElementById('resultAppId').textContent = data.appId;
+  document.getElementById('resultDocType').textContent = `${data.docType} · ${data.name}`;
+
+  // Badge
+  const badgeEl = document.getElementById('resultBadge');
+  const statusLabels = { approved: '✓ Approved', pending: '⏳ Under Review', rejected: '✗ Rejected' };
+  badgeEl.className = `result-badge ${data.status}`;
+  badgeEl.textContent = statusLabels[data.status] || data.status;
+
+  // Timeline steps
+  const steps = ['tStep1', 'tStep2', 'tStep3'];
+  steps.forEach((sid, idx) => {
+    const el = document.getElementById(sid);
+    el.classList.remove('done', 'active', 'rejected');
+    document.getElementById(`tDate${idx + 1}`).textContent = data.dates[idx] || '';
+  });
+
+  if (data.status === 'approved') {
+    document.getElementById('tStep1').classList.add('done');
+    document.getElementById('tStep2').classList.add('done');
+    document.getElementById('tStep3').classList.add('done');
+    document.getElementById('finalTitle').textContent = 'Approved & Dispatched';
+    document.getElementById('finalDesc').textContent = 'Your document has been approved and dispatched. Download available.';
+    document.getElementById('finalIcon').innerHTML = '<i class="bi bi-check2-all"></i>';
+    document.getElementById('tStep3').classList.remove('rejected');
+  } else if (data.status === 'pending') {
+    document.getElementById('tStep1').classList.add('done');
+    document.getElementById('tStep2').classList.add('active');
+    document.getElementById('finalTitle').textContent = 'Awaiting Final Review';
+    document.getElementById('finalDesc').textContent = 'Your application is under review. Expected completion in 2–3 working days.';
+    document.getElementById('finalIcon').innerHTML = '<i class="bi bi-hourglass-split"></i>';
+  } else if (data.status === 'rejected') {
+    document.getElementById('tStep1').classList.add('done');
+    document.getElementById('tStep2').classList.add('done');
+    document.getElementById('tStep3').classList.add('rejected');
+    document.getElementById('finalTitle').textContent = 'Application Rejected';
+    document.getElementById('finalDesc').textContent = 'Your application was rejected due to document mismatch. Please re-apply with correct documents.';
+    document.getElementById('finalIcon').innerHTML = '<i class="bi bi-x-circle-fill"></i>';
+  }
+}
+
+/* =============================================
+   DASHBOARD TABLE FILTER
+   ============================================= */
+function filterTable() {
+  const filter = document.getElementById('tableFilter').value;
+  const rows = document.querySelectorAll('#appTableBody tr');
+
+  rows.forEach(row => {
+    if (filter === 'all' || row.dataset.status === filter) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+
+/* =============================================
+   TOAST NOTIFICATIONS
+   ============================================= */
+function showToast(message, type = 'info') {
+  // Remove existing toasts
+  document.querySelectorAll('.sg-toast').forEach(t => t.remove());
+
+  const colors = {
+    success: { bg: 'var(--success)', icon: 'bi-check-circle-fill' },
+    error:   { bg: 'var(--danger)',  icon: 'bi-exclamation-circle-fill' },
+    info:    { bg: 'var(--primary)', icon: 'bi-info-circle-fill' },
+  };
+  const c = colors[type] || colors.info;
+
+  const toast = document.createElement('div');
+  toast.className = 'sg-toast';
+  toast.style.cssText = `
+    position: fixed; bottom: 84px; right: 28px; z-index: 9999;
+    background: ${c.bg}; color: #fff;
+    padding: 14px 20px; border-radius: 10px;
+    font-family: var(--font-display); font-size: .875rem; font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 8px 28px rgba(0,0,0,.2);
+    transform: translateY(20px); opacity: 0;
+    transition: all 0.3s ease; max-width: 340px;
+  `;
+  toast.innerHTML = `<i class="bi ${c.icon}" style="font-size:1.1rem;flex-shrink:0"></i><span>${message}</span>`;
+  document.body.appendChild(toast);
+
+  // Animate in
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      toast.style.transform = 'translateY(0)';
+      toast.style.opacity = '1';
+    });
+  });
+
+  // Auto dismiss
+  setTimeout(() => {
+    toast.style.transform = 'translateY(20px)';
+    toast.style.opacity = '0';
+    setTimeout(() => toast.remove(), 300);
+  }, 3500);
+}
+
+/* =============================================
+   REAL-TIME FORM VALIDATION HINTS
+   ============================================= */
+document.addEventListener('input', (e) => {
+  const field = e.target;
+  if (!field.classList.contains('custom-input')) return;
+  const group = field.closest('.form-group-custom');
+  if (!group) return;
+
+  if (field.hasAttribute('required') && !field.value.trim()) {
+    group.classList.add('error');
+  } else {
+    group.classList.remove('error');
+  }
+});
+</script>
+
+</body>
+</html>

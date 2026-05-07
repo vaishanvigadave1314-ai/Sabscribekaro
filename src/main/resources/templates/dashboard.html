@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Dashboard - Sabscribekaro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root{--neon:#00e5ff;--neon2:#7b2fff;--neon3:#ff3cac;--bg:#04050f;--glass:rgba(255,255,255,0.04);--gb:rgba(255,255,255,0.08);--text:#e8eaf6;--muted:#6e7a99;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+    /* NAV */
+    nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 5%;background:rgba(4,5,15,0.85);border-bottom:1px solid var(--gb);backdrop-filter:blur(18px);position:sticky;top:0;z-index:10;}
+    .logo{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .nav-right{display:flex;align-items:center;gap:1rem;}
+    .user-badge{display:flex;align-items:center;gap:0.6rem;background:var(--glass);border:1px solid var(--gb);padding:0.45rem 1rem;border-radius:99px;font-size:0.85rem;}
+    .user-badge i{color:var(--neon);}
+    .logout-btn{padding:0.45rem 1.1rem;border-radius:99px;background:rgba(255,64,129,0.1);border:1px solid rgba(255,64,129,0.3);color:#ff4081;font-size:0.83rem;text-decoration:none;transition:0.3s;}
+    .logout-btn:hover{background:rgba(255,64,129,0.22);}
+
+    /* MAIN */
+    .main{max-width:1100px;margin:0 auto;padding:2.5rem 5%;}
+    .welcome h1{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;margin-bottom:0.25rem;}
+    .welcome h1 span{background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .welcome p{color:var(--muted);font-size:0.9rem;margin-bottom:2rem;}
+
+    /* ALERTS */
+    .alert{padding:0.8rem 1.2rem;border-radius:12px;font-size:0.88rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem;}
+    .alert-err{background:rgba(255,64,129,0.1);border:1px solid rgba(255,64,129,0.3);color:#ff4081;}
+    .alert-ok{background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.3);color:#00e676;}
+
+    /* TRIAL BANNER */
+    .trial-banner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;background:linear-gradient(135deg,rgba(123,47,255,0.15),rgba(0,229,255,0.08));border:1px solid rgba(0,229,255,0.2);border-radius:16px;padding:1.2rem 1.5rem;margin-bottom:2rem;}
+    .trial-banner .left{display:flex;align-items:center;gap:0.8rem;}
+    .trial-banner .left i{color:var(--neon);font-size:1.1rem;}
+    .trial-banner strong{font-size:0.95rem;}
+    .trial-banner p{font-size:0.8rem;color:var(--muted);}
+    .timer{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--neon);letter-spacing:1px;}
+    .timer-label{font-size:0.72rem;color:var(--muted);text-align:center;}
+
+    /* EXPIRED LOCK */
+    .lock-overlay{background:rgba(255,64,129,0.06);border:1px solid rgba(255,64,129,0.25);border-radius:16px;padding:2.5rem;text-align:center;margin-bottom:2rem;}
+    .lock-overlay i{font-size:2.5rem;color:#ff4081;margin-bottom:1rem;}
+    .lock-overlay h2{font-family:'Syne',sans-serif;font-size:1.4rem;margin-bottom:0.5rem;}
+    .lock-overlay p{color:var(--muted);font-size:0.9rem;margin-bottom:1.5rem;}
+    .upgrade-btn{display:inline-block;padding:0.85rem 2.2rem;border-radius:99px;background:linear-gradient(135deg,var(--neon3),var(--neon2));color:#fff;font-weight:700;font-size:0.95rem;text-decoration:none;transition:0.3s;}
+    .upgrade-btn:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(255,60,172,0.4);}
+
+    /* STATS */
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin-bottom:2rem;}
+    .card{background:var(--glass);border:1px solid var(--gb);border-radius:16px;padding:1.4rem;transition:0.3s;}
+    .card:hover{transform:translateY(-4px);border-color:rgba(0,229,255,0.25);}
+    .card-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:0.9rem;}
+    .ci1{background:rgba(0,229,255,0.1);color:var(--neon);}
+    .ci2{background:rgba(123,47,255,0.1);color:var(--neon2);}
+    .ci3{background:rgba(0,230,118,0.1);color:#00e676;}
+    .ci4{background:rgba(255,60,172,0.1);color:#ff3cac;}
+    .card h3{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:0.15rem;}
+    .card p{font-size:0.8rem;color:var(--muted);}
+
+    /* WEBSITES SECTION */
+    .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;}
+    .section-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--muted);letter-spacing:1px;}
+    .add-btn{display:flex;align-items:center;gap:0.5rem;padding:0.55rem 1.3rem;border-radius:99px;background:linear-gradient(135deg,var(--neon2),var(--neon));color:#fff;font-size:0.85rem;font-weight:600;border:none;cursor:pointer;transition:0.3s;}
+    .add-btn:hover{transform:translateY(-2px);box-shadow:0 0 25px rgba(0,229,255,0.3);}
+    .add-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+    .sites-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;}
+    .site-card{background:var(--glass);border:1px solid var(--gb);border-radius:16px;padding:1.4rem;transition:0.3s;}
+    .site-card:hover{border-color:rgba(0,229,255,0.2);}
+    .site-name{font-size:0.95rem;font-weight:600;margin-bottom:0.25rem;display:flex;align-items:center;gap:0.5rem;}
+    .badge{font-size:0.68rem;padding:0.18rem 0.55rem;border-radius:99px;background:rgba(0,229,255,0.1);color:var(--neon);border:1px solid rgba(0,229,255,0.2);}
+    .site-date{font-size:0.77rem;color:var(--muted);margin-bottom:1.1rem;}
+    .site-actions{display:flex;gap:0.6rem;}
+    .btn-sm{padding:0.45rem 0.9rem;border-radius:99px;font-size:0.78rem;font-weight:500;cursor:pointer;border:none;transition:0.3s;text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem;}
+    .btn-files{background:rgba(0,229,255,0.1);color:var(--neon);border:1px solid rgba(0,229,255,0.2);}
+    .btn-files:hover{background:rgba(0,229,255,0.2);}
+    .btn-del{background:rgba(255,64,129,0.1);color:#ff4081;border:1px solid rgba(255,64,129,0.2);}
+    .btn-del:hover{background:rgba(255,64,129,0.2);}
+    .empty{text-align:center;padding:3rem;color:var(--muted);font-size:0.9rem;background:var(--glass);border:1px dashed var(--gb);border-radius:16px;}
+    .empty span{font-size:2.5rem;display:block;margin-bottom:0.8rem;}
+
+    /* ── TRIAL POPUP OVERLAY ── */
+    .popup-overlay{position:fixed;inset:0;background:rgba(4,5,15,0.85);backdrop-filter:blur(12px);z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem;}
+    .popup-box{background:#0a0b1a;border:1px solid rgba(0,229,255,0.25);border-radius:24px;padding:2.8rem 2.5rem;max-width:440px;width:100%;text-align:center;box-shadow:0 0 60px rgba(0,229,255,0.1);}
+    .popup-icon{font-size:3rem;margin-bottom:1rem;}
+    .popup-box h2{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;margin-bottom:0.5rem;}
+    .popup-box p{color:var(--muted);font-size:0.9rem;margin-bottom:1.8rem;line-height:1.6;}
+    .popup-timer{display:flex;justify-content:center;gap:1.2rem;margin-bottom:2rem;}
+    .pt-block{background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.15);border-radius:12px;padding:0.8rem 1.2rem;min-width:70px;}
+    .pt-num{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--neon);line-height:1;}
+    .pt-label{font-size:0.68rem;color:var(--muted);margin-top:0.3rem;}
+    .popup-perks{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;}
+    .perk{font-size:0.8rem;color:var(--muted);display:flex;align-items:center;gap:0.4rem;}
+    .perk i{color:var(--neon);font-size:0.75rem;}
+    .start-btn{width:100%;padding:1rem;border-radius:99px;background:linear-gradient(135deg,var(--neon2),var(--neon));color:#fff;font-size:1rem;font-weight:700;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:0.3s;box-shadow:0 0 30px rgba(0,229,255,0.2);}
+    .start-btn:hover{transform:translateY(-2px);box-shadow:0 0 45px rgba(0,229,255,0.4);}
+
+    /* ── ADD WEBSITE MODAL ── */
+    .modal-overlay{position:fixed;inset:0;background:rgba(4,5,15,0.8);backdrop-filter:blur(10px);z-index:50;display:none;align-items:center;justify-content:center;padding:1rem;}
+    .modal-overlay.open{display:flex;}
+    .modal-box{background:#0a0b1a;border:1px solid var(--gb);border-radius:22px;padding:2.2rem;max-width:420px;width:100%;}
+    .modal-box h2{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:0.3rem;}
+    .modal-box p{color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem;}
+    .form-group{margin-bottom:1.1rem;}
+    label{font-size:0.78rem;color:var(--muted);display:block;margin-bottom:0.4rem;font-weight:500;}
+    .input-wrap{position:relative;}
+    .input-wrap i{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:0.85rem;}
+    input[type=text]{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--gb);border-radius:11px;padding:0.8rem 1rem 0.8rem 2.6rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;transition:0.3s;}
+    input[type=text]:focus{border-color:var(--neon);}
+    .file-drop{border:2px dashed var(--gb);border-radius:11px;padding:1.8rem;text-align:center;cursor:pointer;transition:0.3s;position:relative;}
+    .file-drop:hover,.file-drop.dragover{border-color:var(--neon);background:rgba(0,229,255,0.03);}
+    .file-drop i{font-size:1.5rem;color:var(--muted);margin-bottom:0.5rem;}
+    .file-drop p{font-size:0.82rem;color:var(--muted);}
+    .file-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+    .file-name-show{font-size:0.8rem;color:var(--neon);margin-top:0.5rem;display:none;}
+    .modal-actions{display:flex;gap:0.8rem;margin-top:1.2rem;}
+    .modal-cancel{flex:1;padding:0.8rem;border-radius:99px;background:rgba(255,255,255,0.04);border:1px solid var(--gb);color:var(--muted);font-size:0.88rem;cursor:pointer;transition:0.3s;}
+    .modal-cancel:hover{border-color:var(--neon);color:var(--neon);}
+    .modal-submit{flex:2;padding:0.8rem;border-radius:99px;background:linear-gradient(135deg,var(--neon2),var(--neon));color:#fff;font-size:0.9rem;font-weight:700;border:none;cursor:pointer;transition:0.3s;}
+    .modal-submit:hover{box-shadow:0 0 25px rgba(0,229,255,0.35);}
+    .upload-progress{display:none;margin-top:1rem;}
+    .progress-bar{height:4px;background:var(--gb);border-radius:99px;overflow:hidden;}
+    .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--neon2),var(--neon));border-radius:99px;transition:width 0.3s;}
+    .progress-text{font-size:0.78rem;color:var(--muted);margin-top:0.5rem;text-align:center;}
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     TRIAL POPUP — shows only if NOT started
+     ══════════════════════════════════════════ -->
+<div class="popup-overlay" id="trialPopup"
+     th:if="${trialStatus == 'NOT_STARTED'}">
+  <div class="popup-box">
+    <div class="popup-icon">🚀</div>
+    <h2>2-Day Free Trial</h2>
+    <p>Welcome! Host your website completely free — for 48 hours. No credit card required.</p>
+
+    <!-- Countdown starts at 48:00:00 -->
+    <div class="popup-timer">
+      <div class="pt-block"><div class="pt-num" id="pd">02</div><div class="pt-label">Days</div></div>
+      <div class="pt-block"><div class="pt-num" id="ph">00</div><div class="pt-label">Hours</div></div>
+      <div class="pt-block"><div class="pt-num" id="pm">00</div><div class="pt-label">Mins</div></div>
+      <div class="pt-block"><div class="pt-num" id="ps">00</div><div class="pt-label">Secs</div></div>
+    </div>
+
+    <div class="popup-perks">
+      <span class="perk"><i class="fas fa-check"></i> Free SSL</span>
+      <span class="perk"><i class="fas fa-check"></i> ZIP Upload</span>
+      <span class="perk"><i class="fas fa-check"></i> File Manager</span>
+    </div>
+
+    <button class="start-btn" onclick="startTrial()">
+      Start My Free Trial →
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ADD WEBSITE MODAL
+     ══════════════════════════════════════════ -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal-box">
+    <h2>🌐 Add New Website</h2>
+    <p>Upload your website ZIP file — that's all it takes!</p>
+
+    <form method="post" action="/upload" enctype="multipart/form-data" id="uploadForm">
+      <div class="form-group">
+        <label>Website Name (sirf letters, numbers, hyphen)</label>
+        <div class="input-wrap">
+          <i class="fas fa-globe"></i>
+          <input type="text" name="siteName" placeholder="my-portfolio"
+                 pattern="[a-zA-Z0-9_-]+" required/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>ZIP File</label>
+        <div class="file-drop" id="fileDrop">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p>Click ya drag & drop karo</p>
+          <p style="font-size:0.75rem;margin-top:0.3rem;">Only .zip • Max 50MB</p>
+          <input type="file" name="zipFile" id="zipInput" accept=".zip" required/>
+        </div>
+        <div class="file-name-show" id="fileNameShow"></div>
+      </div>
+
+      <div class="upload-progress" id="uploadProgress">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">Uploading...</div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="modal-cancel" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="modal-submit">Upload & Save →</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     NAV
+     ══════════════════════════════════════════ -->
+<nav>
+  <div class="logo">Sabscribekaro</div>
+  <div class="nav-right">
+    <div class="user-badge">
+      <i class="fas fa-user-circle"></i>
+      <span th:text="${name}">User</span>
+    </div>
+    <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     MAIN CONTENT
+     ══════════════════════════════════════════ -->
+<div class="main">
+
+  <div class="welcome">
+    <h1>Welcome, <span th:text="${name}">User</span>! 👋</h1>
+    <p>Manage your hosted websites from here.</p>
+  </div>
+
+  <!-- Flash alerts -->
+  <div th:if="${error}" class="alert alert-err">
+    <i class="fas fa-exclamation-circle"></i> <span th:text="${error}"></span>
+  </div>
+  <div th:if="${success}" class="alert alert-ok">
+    <i class="fas fa-check-circle"></i> <span th:text="${success}"></span>
+  </div>
+
+  <!-- ── TRIAL ACTIVE BANNER ── -->
+  <div class="trial-banner" th:if="${trialStatus == 'ACTIVE'}">
+    <div class="left">
+      <i class="fas fa-clock"></i>
+      <div>
+        <strong>Free Trial Active</strong>
+        <p>You will need to upgrade after the trial expires.</p>
+      </div>
+    </div>
+    <div style="text-align:center;">
+      <div class="timer" id="liveTimer">--:--:--</div>
+      <div class="timer-label">time remaining</div>
+    </div>
+  </div>
+
+  <!-- ── TRIAL EXPIRED LOCK ── -->
+  <div class="lock-overlay" th:if="${trialStatus == 'EXPIRED'}">
+    <i class="fas fa-lock"></i>
+    <h2>Trial Expire Ho Gaya!</h2>
+    <p> Your 48-hour free trial has ended. Please upgrade your plan to access and upload websites.</p>
+    <a href="/pricing" class="upgrade-btn">⚡ Upgrade Now</a>
+  </div>
+
+  <!-- Stats Cards (always visible) -->
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon ci1"><i class="fas fa-globe"></i></div>
+      <h3 th:text="${#lists.size(websites)}">0</h3><p>My Websites</p>
+    </div>
+    <div class="card">
+      <div class="card-icon ci2"><i class="fas fa-database"></i></div>
+      <h3>–</h3><p>Storage Used</p>
+    </div>
+    <div class="card">
+      <div class="card-icon ci3"><i class="fas fa-chart-line"></i></div>
+      <h3>99.99%</h3><p>Uptime</p>
+    </div>
+    <div class="card">
+      <div class="card-icon ci4"><i class="fas fa-shield-halved"></i></div>
+      <h3>SSL</h3><p>Active</p>
+    </div>
+  </div>
+
+  <!-- ── WEBSITES LIST (locked if expired) ── -->
+  <div th:if="${trialStatus != 'EXPIRED'}">
+    <div class="section-header">
+      <div class="section-title">MY WEBSITES</div>
+      <button class="add-btn"
+              th:disabled="${trialStatus == 'NOT_STARTED'}"
+              onclick="openModal()">
+        <i class="fas fa-plus"></i> Add Website
+      </button>
+    </div>
+
+    <div class="sites-grid" th:if="${!#lists.isEmpty(websites)}">
+      <div class="site-card" th:each="site : ${websites}">
+        <div class="site-name">
+          🌐 <span th:text="${site.name}"></span>
+          <span class="badge" th:text="${site.status}"></span>
+        </div>
+        <div class="site-date">
+          Uploaded: <span th:text="${#temporals.format(site.uploadedAt,'dd MMM yyyy, hh:mm a')}"></span>
+        </div>
+      <div class="site-actions">
+
+  <!-- 🆕 Live Link button -->
+<a th:href="${site.siteUrl}"
+   target="_blank"
+   rel="noopener"
+   class="btn-sm"
+   style="background:rgba(0,230,118,0.1);color:#00e676;border:1px solid rgba(0,230,118,0.2);">
+  <i class="fas fa-external-link-alt"></i> Live Link
+</a>
+  <a th:href="@{/files/{id}(id=${site.id})}" class="btn-sm btn-files">
+    <i class="fas fa-folder-open"></i> File Manager
+  </a>
+
+  <form method="post" th:action="@{/website/{id}/delete(id=${site.id})}"
+        onsubmit="return confirm('Sure? Yeh website delete ho jaayegi!')">
+    <button type="submit" class="btn-sm btn-del">
+      <i class="fas fa-trash"></i> Delete
+    </button>
+  </form>
+
+</div>
+      </div>
+    </div>
+
+    <div class="empty" th:if="${#lists.isEmpty(websites)}">
+      <span>📭</span>
+     No websites yet.<br/>
+      <span style="font-size:0.82rem;">Upar "Add Website" click karo aur ZIP upload karo!</span>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+     ══════════════════════════════════════════ -->
+<script th:inline="javascript">
+  const TRIAL_STATUS   = /*[[${trialStatus}]]*/ 'NOT_STARTED';
+  const REMAINING_MS   = /*[[${remainingMs}]]*/ 172800000;
+
+  /* ── 1. POPUP COUNTDOWN (static 48h display) ── */
+  if (TRIAL_STATUS === 'NOT_STARTED') {
+    let ms = 172800000; // 48 hours
+    const tick = () => {
+      const d = Math.floor(ms / 86400000);
+      const h = Math.floor((ms % 86400000) / 3600000);
+      const m = Math.floor((ms % 3600000) / 60000);
+      const s = Math.floor((ms % 60000) / 1000);
+      document.getElementById('pd').textContent = String(d).padStart(2,'0');
+      document.getElementById('ph').textContent = String(h).padStart(2,'0');
+      document.getElementById('pm').textContent = String(m).padStart(2,'0');
+      document.getElementById('ps').textContent = String(s).padStart(2,'0');
+      ms -= 1000;
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  /* ── 2. START TRIAL ── */
+  function startTrial() {
+    fetch('/trial/activate', { method: 'POST',
+      headers:{'Content-Type':'application/json',
+               'X-CSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1] || ''}
+    }).finally(() => {
+      document.getElementById('trialPopup').style.display = 'none';
+      location.reload();
+    });
+  }
+
+  /* ── 3. LIVE TIMER on dashboard banner ── */
+  if (TRIAL_STATUS === 'ACTIVE') {
+    let ms = REMAINING_MS;
+    const el = document.getElementById('liveTimer');
+    const tick = () => {
+      if (ms <= 0) { location.reload(); return; }
+      const h = Math.floor(ms / 3600000);
+      const m = Math.floor((ms % 3600000) / 60000);
+      const s = Math.floor((ms % 60000) / 1000);
+      el.textContent =
+        String(h).padStart(2,'0') + ':' +
+        String(m).padStart(2,'0') + ':' +
+        String(s).padStart(2,'0');
+      ms -= 1000;
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  /* ── 4. ADD WEBSITE MODAL ── */
+  function openModal()  { document.getElementById('addModal').classList.add('open'); }
+  function closeModal() { document.getElementById('addModal').classList.remove('open'); }
+
+  // Close on outside click
+  document.getElementById('addModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('addModal')) closeModal();
+  });
+
+  // File name show
+  document.getElementById('zipInput').addEventListener('change', function() {
+    const show = document.getElementById('fileNameShow');
+    if (this.files[0]) {
+      show.style.display = 'block';
+      show.textContent = '📦 ' + this.files[0].name;
+    }
+  });
+
+  // Drag & drop
+  const drop = document.getElementById('fileDrop');
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragover'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault();
+    drop.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file && file.name.endsWith('.zip')) {
+      document.getElementById('zipInput').files = e.dataTransfer.files;
+      const show = document.getElementById('fileNameShow');
+      show.style.display = 'block';
+      show.textContent = '📦 ' + file.name;
+    }
+  });
+
+  // Upload progress animation
+  document.getElementById('uploadForm').addEventListener('submit', function() {
+    document.getElementById('uploadProgress').style.display = 'block';
+    let pct = 0;
+    const fill = document.getElementById('progressFill');
+    const text = document.getElementById('progressText');
+    const iv = setInterval(() => {
+      pct = Math.min(pct + Math.random() * 15, 90);
+      fill.style.width = pct + '%';
+      text.textContent = 'Uploading... ' + Math.floor(pct) + '%';
+    }, 300);
+  });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.live-link-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const path = this.getAttribute('data-path');
+      const url = window.location.origin + path;
+      window.open(url, '_blank');
+    });
+  });
+});
+</script>
+</body>
+</html>

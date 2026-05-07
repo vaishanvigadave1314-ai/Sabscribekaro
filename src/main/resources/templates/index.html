@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sabscribekaro - Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    /* ============================================================
+       CSS VARIABLES & RESET
+    ============================================================ */
+    :root {
+      --bg: #04050f;
+      --bg2: #080b1a;
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+      --neon: #00e5ff;
+      --neon2: #7b2fff;
+      --neon3: #ff3cac;
+      --accent: #00e5ff;
+      --text: #e8eaf6;
+      --muted: #6e7a99;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --radius: 18px;
+      --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.65;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ============================================================
+       SCROLLBAR
+    ============================================================ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--neon2); border-radius: 99px; }
+
+    /* ============================================================
+       CANVAS PARTICLES
+    ============================================================ */
+    #particle-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 5%;
+      background: rgba(4,5,15,0.6);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--glass-border);
+      transition: var(--transition);
+    }
+    nav.scrolled {
+      background: rgba(4,5,15,0.92);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.5);
+    }
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--neon), var(--neon2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+      position: relative;
+      transition: color var(--transition);
+    }
+    .nav-links a::after {
+      content:'';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--neon);
+      border-radius: 99px;
+      transition: width var(--transition);
+    }
+    .nav-links a:hover { color: var(--neon); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      padding: 0.6rem 1.4rem;
+      border-radius: 99px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--neon2), var(--neon));
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 0 18px rgba(0,229,255,0.2);
+    }
+    .nav-cta:hover { transform: scale(1.05); box-shadow: 0 0 28px rgba(0,229,255,0.4); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 26px; height: 2px; background: var(--text); border-radius: 99px; transition: var(--transition); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #home {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 5% 80px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(123,47,255,0.18) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      pointer-events: none;
+      animation: pulse-glow 4s ease-in-out infinite;
+    }
+    .hero-glow2 {
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,229,255,0.12) 0%, transparent 70%);
+      top: 30%; left: 60%;
+      transform: translate(-50%,-50%);
+      pointer-events: none;
+      animation: pulse-glow 6s ease-in-out infinite reverse;
+    }
+    @keyframes pulse-glow {
+      0%,100% { opacity: 0.7; transform: translate(-50%,-50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%,-50%) scale(1.08); }
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1.1rem;
+      background: rgba(0,229,255,0.08);
+      border: 1px solid rgba(0,229,255,0.25);
+      border-radius: 99px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--neon);
+      margin-bottom: 1.8rem;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-badge::before { content:'✦'; }
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.9s 0.1s ease both;
+    }
+    .hero-title .line1 { display: block; color: var(--text); }
+    .hero-title .line2 {
+      display: block;
+      background: linear-gradient(135deg, var(--neon), var(--neon2), var(--neon3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200%;
+      animation: gradientMove 4s linear infinite, fadeUp 0.9s 0.1s ease both;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .hero-sub {
+      font-size: 1.12rem;
+      color: var(--muted);
+      max-width: 550px;
+      margin: 0 auto 2.5rem;
+      font-weight: 300;
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.9s 0.3s ease both;
+    }
+    .btn-primary {
+      padding: 0.9rem 2.2rem;
+      border-radius: 99px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--neon2), var(--neon));
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 0 30px rgba(0,229,255,0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--neon), var(--neon2));
+      opacity: 0;
+      transition: var(--transition);
+    }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 0 45px rgba(0,229,255,0.4); }
+    .btn-primary:hover::before { opacity: 1; }
+    .btn-primary span { position: relative; z-index: 1; }
+    .btn-outline {
+      padding: 0.9rem 2.2rem;
+      border-radius: 99px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-outline:hover { border-color: var(--neon); color: var(--neon); transform: translateY(-3px); background: rgba(0,229,255,0.05); }
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      justify-content: center;
+      margin-top: 4rem;
+      flex-wrap: wrap;
+      animation: fadeUp 1s 0.5s ease both;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--neon), var(--neon2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* ============================================================
+       SECTION SHARED
+    ============================================================ */
+    section { position: relative; z-index: 1; }
+    .section-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 5%; }
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--neon);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .section-sub { color: var(--muted); max-width: 540px; margin-bottom: 3.5rem; font-size: 1rem; font-weight: 300; }
+
+    /* ============================================================
+       FEATURES
+    ============================================================ */
+    #features { background: linear-gradient(180deg, transparent, rgba(123,47,255,0.05) 50%, transparent); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .feat-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      cursor: default;
+    }
+    .feat-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,229,255,0.07), transparent);
+      opacity: 0;
+      transition: var(--transition);
+    }
+    .feat-card:hover { transform: translateY(-8px) rotateX(3deg); border-color: rgba(0,229,255,0.3); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(0,229,255,0.1); }
+    .feat-card:hover::before { opacity: 1; }
+    .feat-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1.3rem;
+      position: relative;
+    }
+    .feat-icon.c1 { background: rgba(0,229,255,0.1); color: var(--neon); }
+    .feat-icon.c2 { background: rgba(123,47,255,0.1); color: var(--neon2); }
+    .feat-icon.c3 { background: rgba(255,60,172,0.1); color: var(--neon3); }
+    .feat-icon.c4 { background: rgba(0,229,255,0.1); color: var(--neon); }
+    .feat-icon.c5 { background: rgba(123,47,255,0.1); color: var(--neon2); }
+    .feat-icon.c6 { background: rgba(255,60,172,0.1); color: var(--neon3); }
+    .feat-card h3 { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .feat-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; font-weight: 300; }
+
+    /* ============================================================
+       PRICING
+    ============================================================ */
+    #plans { background: linear-gradient(180deg, transparent, rgba(0,229,255,0.03) 50%, transparent); }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .price-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 2.2rem;
+      position: relative;
+      transition: var(--transition);
+      transform-style: preserve-3d;
+      perspective: 800px;
+    }
+    .price-card:hover { transform: translateY(-10px) rotateY(-3deg); box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
+    .price-card.popular {
+      border-color: rgba(123,47,255,0.5);
+      background: linear-gradient(145deg, rgba(123,47,255,0.1), rgba(0,229,255,0.05));
+      box-shadow: 0 0 60px rgba(123,47,255,0.2);
+      transform: scale(1.03);
+    }
+    .price-card.popular:hover { transform: scale(1.03) translateY(-10px) rotateY(-3deg); }
+    .pop-badge {
+      position: absolute;
+      top: -14px; left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--neon2), var(--neon));
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 1.1rem;
+      border-radius: 99px;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .plan-name {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+    .plan-price {
+      font-family: var(--font-head);
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .plan-price sup { font-size: 1.2rem; vertical-align: super; font-weight: 600; }
+    .plan-price span { font-size: 1rem; color: var(--muted); font-weight: 400; letter-spacing: 0; }
+    .plan-price.gradient { background: linear-gradient(135deg, var(--neon), var(--neon2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .plan-desc { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.8rem; font-weight: 300; }
+    .plan-divider { height: 1px; background: var(--glass-border); margin: 1.5rem 0; }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem; }
+    .plan-features li { display: flex; align-items: center; gap: 0.7rem; font-size: 0.9rem; }
+    .plan-features li i { width: 18px; color: var(--neon); font-size: 0.85rem; }
+    .plan-features li.no i { color: var(--muted); }
+    .plan-features li.no { color: var(--muted); }
+    .btn-plan {
+      width: 100%;
+      padding: 0.85rem;
+      border-radius: 99px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      border: 1px solid var(--glass-border);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: var(--font-body);
+    }
+    .btn-plan:hover { border-color: var(--neon); color: var(--neon); background: rgba(0,229,255,0.05); }
+    .btn-plan.fill {
+      background: linear-gradient(135deg, var(--neon2), var(--neon));
+      border: none;
+      color: #fff;
+      box-shadow: 0 0 25px rgba(0,229,255,0.25);
+    }
+    .btn-plan.fill:hover { transform: scale(1.03); box-shadow: 0 0 40px rgba(0,229,255,0.4); }
+
+    /* ============================================================
+       WHY CHOOSE US
+    ============================================================ */
+    #about { background: linear-gradient(180deg, transparent, rgba(255,60,172,0.03) 50%, transparent); }
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .about-text .section-sub { max-width: 100%; }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .astat {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 1.4rem;
+      transition: var(--transition);
+    }
+    .astat:hover { border-color: rgba(0,229,255,0.3); transform: translateY(-4px); }
+    .astat-num {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--neon), var(--neon2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .astat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
+    .about-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .server-graphic {
+      width: 280px;
+      background: linear-gradient(145deg, rgba(123,47,255,0.15), rgba(0,229,255,0.08));
+      border: 1px solid rgba(0,229,255,0.2);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 0 80px rgba(123,47,255,0.2);
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    .server-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .server-row:last-child { border-bottom: none; }
+    .server-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .dot-green { background: #00e676; box-shadow: 0 0 8px #00e676; }
+    .dot-blue { background: var(--neon); box-shadow: 0 0 8px var(--neon); }
+    .dot-purple { background: var(--neon2); box-shadow: 0 0 8px var(--neon2); }
+    .server-info { flex: 1; }
+    .server-name { font-size: 0.82rem; font-weight: 600; margin-bottom: 3px; }
+    .server-bar { height: 4px; background: rgba(255,255,255,0.07); border-radius: 99px; overflow: hidden; }
+    .server-fill { height: 100%; border-radius: 99px; animation: barAnim 2s ease-in-out infinite alternate; }
+    .fill-g { background: #00e676; width: 92%; }
+    .fill-b { background: var(--neon); width: 67%; animation-delay: 0.3s; }
+    .fill-p { background: var(--neon2); width: 81%; animation-delay: 0.6s; }
+    @keyframes barAnim {
+      0% { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+    .server-pct { font-size: 0.75rem; color: var(--muted); }
+
+    /* ============================================================
+       TESTIMONIALS
+    ============================================================ */
+    #testimonials { background: linear-gradient(180deg, transparent, rgba(123,47,255,0.04) 50%, transparent); }
+    .testi-slider { position: relative; overflow: hidden; }
+    .testi-track { display: flex; transition: transform 0.6s cubic-bezier(0.4,0,0.2,1); }
+    .testi-slide { min-width: 100%; }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .testi-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      transition: var(--transition);
+    }
+    .testi-card:hover { border-color: rgba(123,47,255,0.3); transform: translateY(-5px); }
+    .testi-stars { color: #ffd700; font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 2px; }
+    .testi-quote { font-size: 0.92rem; color: var(--muted); line-height: 1.7; font-weight: 300; font-style: italic; margin-bottom: 1.5rem; }
+    .testi-author { display: flex; align-items: center; gap: 0.8rem; }
+    .testi-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .av1 { background: linear-gradient(135deg, var(--neon2), var(--neon)); }
+    .av2 { background: linear-gradient(135deg, var(--neon3), var(--neon2)); }
+    .av3 { background: linear-gradient(135deg, var(--neon), var(--neon3)); }
+    .av4 { background: linear-gradient(135deg, #ff8c00, var(--neon3)); }
+    .av5 { background: linear-gradient(135deg, var(--neon2), var(--neon3)); }
+    .av6 { background: linear-gradient(135deg, var(--neon), var(--neon2)); }
+    .testi-name { font-weight: 600; font-size: 0.9rem; }
+    .testi-role { font-size: 0.78rem; color: var(--muted); }
+    .slider-dots {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 99px;
+      background: var(--glass-border);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .dot.active { width: 24px; background: var(--neon); }
+
+    /* ============================================================
+       CONTACT
+    ============================================================ */
+    #contact { background: linear-gradient(180deg, transparent, rgba(0,229,255,0.03) 50%, transparent); }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .contact-info { padding-top: 1rem; }
+    .contact-info p { color: var(--muted); font-weight: 300; margin-bottom: 2rem; }
+    .cinfo-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .cinfo-item:last-child { border-bottom: none; }
+    .cinfo-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      background: rgba(0,229,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--neon);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .cinfo-label { font-size: 0.78rem; color: var(--muted); }
+    .cinfo-val { font-size: 0.9rem; font-weight: 500; }
+    .contact-form {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+    }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label { font-size: 0.82rem; color: var(--muted); display: block; margin-bottom: 0.5rem; font-weight: 500; }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      transition: var(--transition);
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--neon); background: rgba(0,229,255,0.04); box-shadow: 0 0 0 3px rgba(0,229,255,0.08); }
+    .form-group textarea { min-height: 120px; resize: vertical; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-error { font-size: 0.78rem; color: #ff4081; margin-top: 0.3rem; display: none; }
+    .form-error.show { display: block; }
+    .form-success {
+      display: none;
+      padding: 1rem;
+      background: rgba(0,230,118,0.1);
+      border: 1px solid rgba(0,230,118,0.3);
+      border-radius: 10px;
+      color: #00e676;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .form-success.show { display: block; animation: fadeUp 0.4s ease; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      position: relative;
+      z-index: 1;
+      background: rgba(4,5,15,0.95);
+      border-top: 1px solid var(--glass-border);
+      padding: 4rem 5% 2rem;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-brand p { color: var(--muted); font-size: 0.88rem; line-height: 1.7; margin-top: 0.8rem; max-width: 280px; font-weight: 300; }
+    .footer-social { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
+    .social-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      color: var(--muted);
+    }
+    .social-icon:hover { border-color: var(--neon); color: var(--neon); background: rgba(0,229,255,0.08); transform: translateY(-3px); }
+    .footer-col h4 { font-family: var(--font-head); font-size: 0.9rem; font-weight: 700; margin-bottom: 1.2rem; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-links a { font-size: 0.85rem; color: var(--muted); transition: color var(--transition); }
+    .footer-links a:hover { color: var(--neon); }
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 2rem;
+      border-top: 1px solid var(--glass-border);
+      font-size: 0.82rem;
+      color: var(--muted);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* ============================================================
+       ANIMATIONS
+    ============================================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================================================
+       MOBILE NAV
+    ============================================================ */
+    @media (max-width: 900px) {
+      .about-inner { grid-template-columns: 1fr; }
+      .about-visual { display: none; }
+      .contact-inner { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 700px) {
+      .nav-links { display: none; flex-direction: column; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(4,5,15,0.98); align-items: center; justify-content: center; gap: 2rem; z-index: 99; }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1.5rem; }
+      .hamburger { display: flex; z-index: 101; }
+      .nav-cta { display: none; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .price-card.popular { transform: none; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .about-stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PARTICLES -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">Sabscribekaro</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#plans">Plans</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+ <button class="nav-cta" onclick="location.href='/login'"><span>Login / Register →</span></button> <span>Get Started →</span></button>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div>
+    <div class="hero-badge">⚡ India's #1 Hosting Platform</div>
+    <h1 class="hero-title">
+      <span class="line1">Fast, Secure &</span>
+      <span class="line2">Unstoppable Hosting</span>
+    </h1>
+    <p class="hero-sub">Deploy your website in seconds. Enterprise-grade performance, bulletproof security, and 99.99% uptime guaranteed — all at unbeatable prices.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="location.href='pricing.html'"><span>🚀 Get Started</span></button>
+      <button class="btn-outline" onclick="document.getElementById('plans').scrollIntoView({behavior:'smooth'})">View Plans →</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num" data-count="50000">0</div><div class="stat-label">Happy Customers</div></div>
+      <div class="stat-item"><div class="stat-num">99.99%</div><div class="stat-label">Uptime SLA</div></div>
+      <div class="stat-item"><div class="stat-num" data-count="150">0</div><div class="stat-label">Global Data Centers</div></div>
+      <div class="stat-item"><div class="stat-num">24/7</div><div class="stat-label">Expert Support</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-wrap">
+    <div class="section-tag reveal">✦ Why We're Different</div>
+    <h2 class="section-title reveal">Everything you need to<br>dominate the web</h2>
+    <p class="section-sub reveal">From lightning-fast NVMe SSD storage to military-grade DDoS protection — we've built the ultimate hosting stack.</p>
+    <div class="features-grid">
+      <div class="feat-card reveal">
+        <div class="feat-icon c1"><i class="fas fa-bolt"></i></div>
+        <h3>Blazing Fast Speed</h3>
+        <p>NVMe SSD drives + LiteSpeed web server ensures your pages load in under 200ms globally with our CDN.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon c2"><i class="fas fa-shield-halved"></i></div>
+        <h3>Military-Grade Security</h3>
+        <p>DDoS protection, free SSL, malware scanner, and automated daily backups keep your site bulletproof 24/7.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon c3"><i class="fas fa-headset"></i></div>
+        <h3>24/7 Expert Support</h3>
+        <p>Real humans, not bots. Our certified engineers respond in under 60 seconds via live chat or phone.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon c4"><i class="fas fa-cloud"></i></div>
+        <h3>Elastic Cloud Scaling</h3>
+        <p>Handle traffic spikes automatically. Our auto-scaling infrastructure grows instantly with your demand.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon c5"><i class="fas fa-globe"></i></div>
+        <h3>Global CDN Network</h3>
+        <p>150+ PoPs across 6 continents ensure lightning-fast delivery no matter where your users are located.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon c6"><i class="fas fa-recycle"></i></div>
+        <h3>One-Click Backups</h3>
+        <p>Automated daily snapshots + instant restore. Your data is always safe and recoverable in seconds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="plans">
+  <div class="section-wrap">
+    <div class="section-tag reveal">✦ Transparent Pricing</div>
+    <h2 class="section-title reveal">Plans built for every stage<br>of your journey</h2>
+    <p class="section-sub reveal">No hidden fees. No surprises. Just incredible hosting at prices that make sense.</p>
+    <div class="pricing-grid">
+
+      <div class="price-card reveal">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">₹<span style="font-size:3rem;letter-spacing:-2px;font-weight:800;">99</span><span>/mo</span></div>
+        <div class="plan-desc">Perfect for blogs and personal sites just getting started.</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li><i class="fas fa-check"></i> 1 Website</li>
+          <li><i class="fas fa-check"></i> 10 GB NVMe SSD</li>
+          <li><i class="fas fa-check"></i> Unlimited Bandwidth</li>
+          <li><i class="fas fa-check"></i> Free SSL Certificate</li>
+          <li><i class="fas fa-check"></i> 5 Email Accounts</li>
+          <li class="no"><i class="fas fa-times"></i> Daily Backups</li>
+          <li class="no"><i class="fas fa-times"></i> Priority Support</li>
+        </ul>
+        <button class="btn-plan" onclick="location.href='pricing.html'">Choose Starter</button>
+      </div>
+
+      <div class="price-card popular reveal">
+        <div class="pop-badge">⭐ Most Popular</div>
+        <div class="plan-name">Business</div>
+        <div class="plan-price gradient">₹<span style="font-size:3rem;letter-spacing:-2px;font-weight:800;">299</span><span style="color:var(--muted)">/mo</span></div>
+        <div class="plan-desc">The sweet spot for growing businesses and e-commerce stores.</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li><i class="fas fa-check"></i> Unlimited Websites</li>
+          <li><i class="fas fa-check"></i> 100 GB NVMe SSD</li>
+          <li><i class="fas fa-check"></i> Unlimited Bandwidth</li>
+          <li><i class="fas fa-check"></i> Free SSL + Domain</li>
+          <li><i class="fas fa-check"></i> Unlimited Emails</li>
+          <li><i class="fas fa-check"></i> Daily Backups</li>
+          <li><i class="fas fa-check"></i> Priority Support</li>
+        </ul>
+        <button class="btn-plan fill" onclick="location.href='pricing.html'">Choose Business</button>
+      </div>
+
+      <div class="price-card reveal">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-price">₹<span style="font-size:3rem;letter-spacing:-2px;font-weight:800;">799</span><span>/mo</span></div>
+        <div class="plan-desc">Maximum power for high-traffic applications and large teams.</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li><i class="fas fa-check"></i> Unlimited Websites</li>
+          <li><i class="fas fa-check"></i> 500 GB NVMe SSD</li>
+          <li><i class="fas fa-check"></i> Unlimited Bandwidth</li>
+          <li><i class="fas fa-check"></i> Free SSL + Domain</li>
+          <li><i class="fas fa-check"></i> Unlimited Emails</li>
+          <li><i class="fas fa-check"></i> Hourly Backups</li>
+          <li><i class="fas fa-check"></i> Dedicated Account Manager</li>
+        </ul>
+        <button class="btn-plan" onclick="location.href='pricing.html'">Choose Enterprise</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="about-inner">
+      <div class="about-text">
+        <div class="section-tag reveal">✦ Why Sabscribekaro</div>
+        <h2 class="section-title reveal">Trusted by 50,000+<br>websites across India</h2>
+        <p class="section-sub reveal">We started with a simple belief: great hosting shouldn't require a technical degree or a huge budget. Since 2019, we've powered everything from personal blogs to enterprise SaaS platforms — with the same obsessive commitment to performance, security, and support.</p>
+        <div class="about-stats">
+          <div class="astat reveal"><div class="astat-num">99.99%</div><div class="astat-label">Guaranteed Uptime</div></div>
+          <div class="astat reveal"><div class="astat-num">60s</div><div class="astat-label">Avg. Support Response</div></div>
+          <div class="astat reveal"><div class="astat-num">150+</div><div class="astat-label">Global Edge Servers</div></div>
+          <div class="astat reveal"><div class="astat-num">5★</div><div class="astat-label">Customer Rating</div></div>
+        </div>
+      </div>
+      <div class="about-visual">
+        <div class="server-graphic">
+          <div style="font-family:var(--font-head);font-size:0.85rem;font-weight:700;color:var(--muted);margin-bottom:1rem;text-transform:uppercase;letter-spacing:1px;">Live Server Status</div>
+          <div class="server-row">
+            <div class="server-dot dot-green"></div>
+            <div class="server-info">
+              <div class="server-name">Mumbai (IN-MUM)</div>
+              <div class="server-bar"><div class="server-fill fill-g"></div></div>
+            </div>
+            <div class="server-pct">92%</div>
+          </div>
+          <div class="server-row">
+            <div class="server-dot dot-blue"></div>
+            <div class="server-info">
+              <div class="server-name">Singapore (SG-SIN)</div>
+              <div class="server-bar"><div class="server-fill fill-b"></div></div>
+            </div>
+            <div class="server-pct">67%</div>
+          </div>
+          <div class="server-row">
+            <div class="server-dot dot-purple"></div>
+            <div class="server-info">
+              <div class="server-name">Frankfurt (DE-FRA)</div>
+              <div class="server-bar"><div class="server-fill fill-p"></div></div>
+            </div>
+            <div class="server-pct">81%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-wrap">
+    <div class="section-tag reveal">✦ What Customers Say</div>
+    <h2 class="section-title reveal">Real reviews from<br>real customers</h2>
+    <p class="section-sub reveal">Don't just take our word for it — here's what our 50,000+ customers have to say.</p>
+    <div class="testi-slider">
+      <div class="testi-track" id="testi-track">
+        <div class="testi-slide">
+          <div class="testi-grid">
+            <div class="testi-card reveal">
+              <div class="testi-stars">★★★★★</div>
+              <p class="testi-quote">"Switched from a big provider and my page speed literally doubled. The support team migrated everything for free overnight. Absolutely incredible service."</p>
+              <div class="testi-author">
+                <div class="testi-avatar av1">RK</div>
+                <div><div class="testi-name">Rahul Khanna</div><div class="testi-role">Founder, TechStartup.in</div></div>
+              </div>
+            </div>
+            <div class="testi-card reveal">
+              <div class="testi-stars">★★★★★</div>
+              <p class="testi-quote">"We run a 50k+ daily visitor e-commerce store. Not a single minute of downtime in 2 years. The Business plan is an absolute steal for what you get."</p>
+              <div class="testi-author">
+                <div class="testi-avatar av2">PS</div>
+                <div><div class="testi-name">Priya Sharma</div><div class="testi-role">CEO, FashionHub</div></div>
+              </div>
+            </div>
+            <div class="testi-card reveal">
+              <div class="testi-stars">★★★★★</div>
+              <p class="testi-quote">"The NVMe SSDs make a real difference. Our WordPress site feels like it's running on steroids. Plus the free SSL setup was effortless — done in 30 seconds."</p>
+              <div class="testi-author">
+                <div class="testi-avatar av3">AM</div>
+                <div><div class="testi-name">Arjun Mehta</div><div class="testi-role">Blogger & YouTuber</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-slide">
+          <div class="testi-grid">
+            <div class="testi-card">
+              <div class="testi-stars">★★★★★</div>
+              <p class="testi-quote">"Support responded in under 60 seconds at 2am when our site was down. They fixed a server config issue in minutes. That kind of service is priceless."</p>
+              <div class="testi-author">
+                <div class="testi-avatar av4">SN</div>
+                <div><div class="testi-name">Sneha Nair</div><div class="testi-role">Digital Agency Owner</div></div>
+              </div>
+            </div>
+            <div class="testi-card">
+              <div class="testi-stars">★★★★★</div>
+              <p class="testi-quote">"I manage hosting for 30+ client sites. The multi-site dashboard and one-click SSL renewal saves me hours every week. Best investment I've made."</p>
+              <div class="testi-author">
+                <div class="testi-avatar av5">VR</div>
+                <div><div class="testi-name">Vikram Reddy</div><div class="testi-role">Web Developer</div></div>
+              </div>
+            </div>
+            <div class="testi-card">
+              <div class="testi-stars">★★★★★</div>
+              <p class="testi-quote">"Coming from shared hosting, the speed difference with Sabscribekaro is night and day. My Google Core Web Vitals score jumped from 62 to 96 after migrating."</p>
+              <div class="testi-author">
+                <div class="testi-avatar av6">KD</div>
+                <div><div class="testi-name">Kavya Desai</div><div class="testi-role">SEO Consultant</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-dots" id="slider-dots">
+      <div class="dot active" onclick="goSlide(0)"></div>
+      <div class="dot" onclick="goSlide(1)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="section-tag reveal">✦ Get In Touch</div>
+    <h2 class="section-title reveal">Have questions?<br>We're here for you</h2>
+    <div class="contact-inner">
+      <div class="contact-info reveal">
+        <p>Our team of hosting experts is ready to help you find the perfect plan, migrate your existing site, or troubleshoot any issue.</p>
+        <div class="cinfo-item">
+          <div class="cinfo-icon"><i class="fas fa-envelope"></i></div>
+          <div><div class="cinfo-label">Email us at</div><div class="cinfo-val">hello@sabscribekaro.in</div></div>
+        </div>
+        <div class="cinfo-item">
+          <div class="cinfo-icon"><i class="fas fa-phone"></i></div>
+          <div><div class="cinfo-label">Call us on</div><div class="cinfo-val">+91 98765 43210</div></div>
+        </div>
+        <div class="cinfo-item">
+          <div class="cinfo-icon"><i class="fas fa-comments"></i></div>
+          <div><div class="cinfo-label">Live Chat</div><div class="cinfo-val">Available 24/7 on the dashboard</div></div>
+        </div>
+        <div class="cinfo-item">
+          <div class="cinfo-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div><div class="cinfo-label">Headquarters</div><div class="cinfo-val">Bandra Kurla Complex, Mumbai, India</div></div>
+        </div>
+      </div>
+      <div class="contact-form reveal">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name *</label>
+            <input type="text" id="fname" placeholder="Rahul"/>
+            <div class="form-error" id="fname-err">Please enter your first name.</div>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="lname" placeholder="Khanna"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="email" placeholder="rahul@example.com"/>
+          <div class="form-error" id="email-err">Please enter a valid email.</div>
+        </div>
+        <div class="form-group">
+          <label>Subject</label>
+          <input type="text" id="subject" placeholder="I need help with..."/>
+        </div>
+        <div class="form-group">
+          <label>Message *</label>
+          <textarea id="message" placeholder="Tell us how we can help..."></textarea>
+          <div class="form-error" id="msg-err">Please enter a message (at least 10 characters).</div>
+        </div>
+        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="validateForm()"><span>Send Message →</span></button>
+        <div class="form-success" id="form-success">✅ Message sent! We'll get back to you within 1 hour.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="nav-logo" style="font-size:1.4rem;">Sabscribekaro</div>
+      <p>India's most trusted web hosting platform. Powering 50,000+ websites with speed, security, and support that never sleeps.</p>
+      <div class="footer-social">
+        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul class="footer-links">
+        <li><a href="pricing.html">Pricing Plans</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#">WordPress Hosting</a></li>
+        <li><a href="#">VPS Hosting</a></li>
+        <li><a href="#">Domain Names</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul class="footer-links">
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press Kit</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul class="footer-links">
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Refund Policy</a></li>
+        <li><a href="#">SLA</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Sabscribekaro. All rights reserved.</span>
+    <span>Made with ❤️ in India 🇮🇳</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   PARTICLES
+============================================================ */
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 1.5 + 0.3;
+    this.speedX = (Math.random() - 0.5) * 0.4;
+    this.speedY = (Math.random() - 0.5) * 0.4;
+    this.opacity = Math.random() * 0.5 + 0.1;
+    const colors = ['0,229,255','123,47,255','255,60,172'];
+    this.color = colors[Math.floor(Math.random()*3)];
+  }
+  update() {
+    this.x += this.speedX; this.y += this.speedY;
+    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(${this.color},${this.opacity})`;
+    ctx.fill();
+  }
+}
+for (let i=0; i<120; i++) particles.push(new Particle());
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+/* ============================================================
+   NAVBAR
+============================================================ */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+/* ============================================================
+   COUNTER ANIMATION
+============================================================ */
+function animateCount(el, target) {
+  let current = 0;
+  const step = target / 80;
+  const timer = setInterval(() => {
+    current += step;
+    if (current >= target) { el.textContent = target.toLocaleString('en-IN'); clearInterval(timer); }
+    else el.textContent = Math.floor(current).toLocaleString('en-IN');
+  }, 20);
+}
+const counters = document.querySelectorAll('[data-count]');
+let counted = false;
+const observer = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting && !counted) {
+    counted = true;
+    counters.forEach(el => animateCount(el, +el.dataset.count));
+  }
+}, { threshold: 0.5 });
+if (counters.length) observer.observe(counters[0]);
+
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+const reveals = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(r => revealObs.observe(r));
+
+/* ============================================================
+   TESTIMONIAL SLIDER
+============================================================ */
+let currentSlide = 0;
+const track = document.getElementById('testi-track');
+const dots = document.querySelectorAll('.slider-dots .dot');
+function goSlide(n) {
+  currentSlide = n;
+  track.style.transform = `translateX(-${n * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === n));
+}
+setInterval(() => goSlide((currentSlide + 1) % 2), 5000);
+
+/* ============================================================
+   FORM VALIDATION
+============================================================ */
+function validateForm() {
+  let valid = true;
+  const fname = document.getElementById('fname');
+  const email = document.getElementById('email');
+  const message = document.getElementById('message');
+  document.querySelectorAll('.form-error').forEach(e => e.classList.remove('show'));
+
+  if (!fname.value.trim()) {
+    document.getElementById('fname-err').classList.add('show');
+    fname.focus();
+    valid = false;
+  }
+  if (!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+    document.getElementById('email-err').classList.add('show');
+    if (valid) email.focus();
+    valid = false;
+  }
+  if (!message.value.trim() || message.value.trim().length < 10) {
+    document.getElementById('msg-err').classList.add('show');
+    if (valid) message.focus();
+    valid = false;
+  }
+  if (valid) {
+    document.getElementById('form-success').classList.add('show');
+    fname.value = ''; document.getElementById('lname').value = '';
+    email.value = ''; document.getElementById('subject').value = '';
+    message.value = '';
+    setTimeout(() => document.getElementById('form-success').classList.remove('show'), 4000);
+  }
+}
+
+/* ============================================================
+   3D CARD TILT
+============================================================ */
+document.querySelectorAll('.feat-card, .price-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(600px) rotateY(${x*12}deg) rotateX(${-y*8}deg) translateY(-8px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+</script>
+</body>
+</html>

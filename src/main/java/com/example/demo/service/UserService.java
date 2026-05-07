@@ -15,9 +15,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+ // Yeh add karo class mein:
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private EmailService emailService;
 
+    // register() method mein save ke baad:
     public String register(String name, String email, String password) {
         if (userRepository.existsByEmail(email)) return "EXISTS";
         User user = new User();
@@ -25,6 +27,10 @@ public class UserService {
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
+        
+        // ✅ Welcome email bhejo
+        emailService.sendWelcomeEmail(email, name);
+        
         return "SUCCESS";
     }
 
@@ -59,4 +65,6 @@ public class UserService {
         );
         return Math.max(0, 48L * 60 * 60 * 1000 - elapsed);
     }
+    
+    
 }

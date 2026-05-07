@@ -60,7 +60,7 @@ public class WebsiteService {
         Website website = new Website();
         website.setName(safeName);
         website.setOwnerEmail(userEmail);
-        website.setFolderPath(siteDir.toString());
+        website.setFolderPath(siteDir.toAbsolutePath().toString());
 
         // ✅ FIX 4 — full public URL with domain
         String encodedEmail = userEmail

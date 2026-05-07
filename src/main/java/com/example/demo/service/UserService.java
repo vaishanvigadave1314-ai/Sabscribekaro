@@ -5,7 +5,6 @@ import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -15,11 +14,12 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
- // Yeh add karo class mein:
     @Autowired
-    private EmailService emailService;
+    private PasswordEncoder passwordEncoder; // ✅ YAHI MISSING THA
 
-    // register() method mein save ke baad:
+    @Autowired
+    private EmailService emailService; // ✅ Email service
+
     public String register(String name, String email, String password) {
         if (userRepository.existsByEmail(email)) return "EXISTS";
         User user = new User();
@@ -27,10 +27,10 @@ public class UserService {
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
-        
+
         // ✅ Welcome email bhejo
         emailService.sendWelcomeEmail(email, name);
-        
+
         return "SUCCESS";
     }
 
@@ -65,6 +65,4 @@ public class UserService {
         );
         return Math.max(0, 48L * 60 * 60 * 1000 - elapsed);
     }
-    
-    
 }

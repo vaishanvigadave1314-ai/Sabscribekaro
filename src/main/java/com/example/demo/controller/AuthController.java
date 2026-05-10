@@ -56,6 +56,10 @@ public class AuthController {
         if (logout != null)     model.addAttribute("success", "👋 Logged out successfully.");
         return "login";
     }
-
+ // Yeh add karo AuthController.java mein:
+    @GetMapping("/pricing")
+    public String pricingPage() { 
+        return "pricing"; 
+    }
    
 }

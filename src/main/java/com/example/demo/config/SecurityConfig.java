@@ -28,23 +28,19 @@ public class SecurityConfig {
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authenticationProvider(authProvider())
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                // 1. PUBLIC: Access to hosted websites (WhatsApp links)
-                .requestMatchers("/site/**").permitAll() 
-                
-                // 2. PUBLIC: Auth pages and static assets
-                .requestMatchers("/", "/register", "/login", "/login-process", 
-                                 "/css/**", "/js/**", "/images/**").permitAll()
-                
-                // 3. PRIVATE: Dashboard and management must be logged in
-                .requestMatchers("/dashboard/**", "/upload/**", "/files/**", "/website/**").authenticated()
-                
-                // 4. CATCH-ALL:
+                .requestMatchers("/site/**").permitAll()
+                .requestMatchers("/", "/register", "/login", "/login-process",
+                                 "/css/**", "/js/**", "/images/**",
+                                 "/pricing").permitAll()
+                .requestMatchers("/dashboard/**", "/upload/**",
+                                 "/files/**", "/website/**").authenticated()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -59,12 +55,9 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/login?logout=true")
                 .permitAll()
             )
-            // 🆕 Add this to allow your sites to load properly in previews
             .headers(headers -> headers
                 .frameOptions(frame -> frame.sameOrigin())
             );
-
         return http.build();
     }
-  
 }

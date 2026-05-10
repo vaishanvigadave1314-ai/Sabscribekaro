@@ -256,5 +256,29 @@
     `;
   }
 </script>
+function processPayment() {
+    const name = document.getElementById('payName').value;
+    const email = document.getElementById('payEmail').value;
+    const phone = document.getElementById('payPhone').value;
+
+    if (!name || !email || !phone) {
+        alert('Please fill all fields!');
+        return;
+    }
+
+    // ✅ Plan activate karo DB mein
+    fetch('/payment/success?plan=' + selectedPlan, {
+        method: 'POST'
+    }).then(() => {
+        document.getElementById('modalContent').innerHTML = `
+          <div class="success-box">
+            <div class="icon">🎉</div>
+            <h2>Payment Successful!</h2>
+            <p>Welcome to <strong style="color:var(--neon);">${selectedPlan}</strong> plan!</p>
+            <a href="/dashboard" class="go-dashboard">Go to Dashboard →</a>
+          </div>
+        `;
+    });
+}
 </body>
 </html>

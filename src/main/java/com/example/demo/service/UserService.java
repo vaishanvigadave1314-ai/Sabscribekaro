@@ -65,4 +65,20 @@ public class UserService {
         );
         return Math.max(0, 48L * 60 * 60 * 1000 - elapsed);
     }
+    public void activatePlan(String email, String planName) {
+        User user = findByEmail(email);
+        if (user != null) {
+            user.setPlan(planName.toUpperCase());
+            user.setPlanExpiresAt(LocalDateTime.now().plusMonths(1));
+            userRepository.save(user);
+        }
+    }
+
+    public boolean hasPaidPlan(String email) {
+        User user = findByEmail(email);
+        if (user == null) return false;
+        if (user.getPlan().equals("FREE")) return false;
+        if (user.getPlanExpiresAt() == null) return false;
+        return user.getPlanExpiresAt().isAfter(LocalDateTime.now());
+    }
 }

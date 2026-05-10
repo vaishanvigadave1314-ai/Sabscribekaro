@@ -44,4 +44,15 @@ public class User {
     public void setTrialStartedAt(LocalDateTime t) { this.trialStartedAt = t; }
     public boolean isTrialActivated() { return trialActivated; }
     public void setTrialActivated(boolean t) { this.trialActivated = t; }
+ // Yeh add karo User.java mein existing fields ke baad:
+    @Column(nullable = false)
+    private String plan = "FREE"; // FREE, STARTER, PRO, BUSINESS
+
+    private LocalDateTime planExpiresAt; // plan kab expire hoga
+
+    // Getters & Setters
+    public String getPlan() { return plan; }
+    public void setPlan(String plan) { this.plan = plan; }
+    public LocalDateTime getPlanExpiresAt() { return planExpiresAt; }
+    public void setPlanExpiresAt(LocalDateTime t) { this.planExpiresAt = t; }
 }

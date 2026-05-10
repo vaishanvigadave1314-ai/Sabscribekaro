@@ -247,7 +247,7 @@
   </div>
 
   <!-- ── TRIAL EXPIRED LOCK ── -->
-  <div class="lock-overlay" th:if="${trialStatus == 'EXPIRED'}">
+  <div class="lock-overlay" th:if="${trialStatus == 'EXPIRED' and !hasPaidPlan}">
     <i class="fas fa-lock"></i>
     <h2>Trial Expire Ho Gaya!</h2>
     <p> Your 48-hour free trial has ended. Please upgrade your plan to access and upload websites.</p>
@@ -275,7 +275,7 @@
   </div>
 
   <!-- ── WEBSITES LIST (locked if expired) ── -->
-  <div th:if="${trialStatus != 'EXPIRED'}">
+<div th:if="${trialStatus != 'EXPIRED' or hasPaidPlan}">
     <div class="section-header">
       <div class="section-title">MY WEBSITES</div>
       <button class="add-btn"

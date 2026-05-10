@@ -1,29 +1,260 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Sabscribekaro - Pricing</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: Arial, sans-serif; }
-nav { background: #2c3e50; padding: 1rem 2rem; display: flex; gap: 2rem; align-items: center; }
-nav h1 { color: white; }
-nav a { color: #ecf0f1; text-decoration: none; }
-main { padding: 2rem; }
-    </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pricing - Sabscribekaro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root{--neon:#00e5ff;--neon2:#7b2fff;--neon3:#ff3cac;--bg:#04050f;--glass:rgba(255,255,255,0.04);--gb:rgba(255,255,255,0.08);--text:#e8eaf6;--muted:#6e7a99;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+    /* NAV */
+    nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 5%;background:rgba(4,5,15,0.85);border-bottom:1px solid var(--gb);backdrop-filter:blur(18px);position:sticky;top:0;z-index:10;}
+    .logo{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .nav-right{display:flex;align-items:center;gap:1rem;}
+    .back-btn{padding:0.45rem 1.1rem;border-radius:99px;background:var(--glass);border:1px solid var(--gb);color:var(--muted);font-size:0.83rem;text-decoration:none;transition:0.3s;}
+    .back-btn:hover{border-color:var(--neon);color:var(--neon);}
+
+    /* HERO */
+    .hero{text-align:center;padding:4rem 5% 2rem;}
+    .hero h1{font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;margin-bottom:0.5rem;}
+    .hero h1 span{background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .hero p{color:var(--muted);font-size:1rem;margin-bottom:2rem;}
+
+    /* PLANS GRID */
+    .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto;padding:0 5% 4rem;}
+
+    /* PLAN CARD */
+    .plan{background:var(--glass);border:1px solid var(--gb);border-radius:24px;padding:2rem;position:relative;transition:0.3s;}
+    .plan:hover{transform:translateY(-6px);border-color:rgba(0,229,255,0.25);}
+    .plan.popular{border-color:var(--neon2);background:linear-gradient(135deg,rgba(123,47,255,0.12),rgba(0,229,255,0.05));}
+    .popular-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--neon2),var(--neon));color:#fff;font-size:0.75rem;font-weight:700;padding:0.3rem 1rem;border-radius:99px;}
+    .plan-name{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:0.5rem;color:var(--muted);}
+    .plan-price{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;margin-bottom:0.3rem;}
+    .plan-price span{font-size:1rem;font-weight:400;color:var(--muted);}
+    .plan-desc{font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.6;}
+    .features{list-style:none;margin-bottom:2rem;}
+    .features li{font-size:0.88rem;color:var(--text);padding:0.4rem 0;display:flex;align-items:center;gap:0.6rem;border-bottom:1px solid var(--gb);}
+    .features li:last-child{border-bottom:none;}
+    .features li i{color:var(--neon);font-size:0.8rem;width:16px;}
+    .features li i.fa-times{color:#ff4081;}
+    .plan-btn{width:100%;padding:0.9rem;border-radius:99px;font-size:0.95rem;font-weight:700;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:0.3s;}
+    .btn-primary{background:linear-gradient(135deg,var(--neon2),var(--neon));color:#fff;box-shadow:0 0 25px rgba(0,229,255,0.2);}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(0,229,255,0.4);}
+    .btn-outline{background:transparent;border:1px solid var(--gb);color:var(--muted);}
+    .btn-outline:hover{border-color:var(--neon);color:var(--neon);}
+    .btn-pink{background:linear-gradient(135deg,var(--neon3),var(--neon2));color:#fff;box-shadow:0 0 25px rgba(255,60,172,0.2);}
+    .btn-pink:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(255,60,172,0.4);}
+
+    /* PAYMENT MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(4,5,15,0.85);backdrop-filter:blur(12px);z-index:100;display:none;align-items:center;justify-content:center;padding:1rem;}
+    .modal-overlay.open{display:flex;}
+    .modal-box{background:#0a0b1a;border:1px solid var(--gb);border-radius:24px;padding:2.5rem;max-width:440px;width:100%;}
+    .modal-box h2{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:0.3rem;}
+    .modal-box p{color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem;}
+    .selected-plan{background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.15);border-radius:12px;padding:1rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;}
+    .selected-plan span{font-size:0.9rem;color:var(--muted);}
+    .selected-plan strong{font-family:'Syne',sans-serif;font-size:1.2rem;color:var(--neon);}
+    .form-group{margin-bottom:1rem;}
+    .form-group label{font-size:0.78rem;color:var(--muted);display:block;margin-bottom:0.4rem;}
+    .form-group input{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--gb);border-radius:11px;padding:0.8rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;transition:0.3s;}
+    .form-group input:focus{border-color:var(--neon);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .pay-btn{width:100%;padding:0.95rem;border-radius:99px;background:linear-gradient(135deg,var(--neon2),var(--neon));color:#fff;font-size:1rem;font-weight:700;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:0.3s;margin-top:0.5rem;}
+    .pay-btn:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,229,255,0.4);}
+    .modal-cancel-btn{width:100%;padding:0.8rem;border-radius:99px;background:transparent;border:1px solid var(--gb);color:var(--muted);font-size:0.88rem;cursor:pointer;margin-top:0.6rem;transition:0.3s;}
+    .modal-cancel-btn:hover{border-color:var(--neon);color:var(--neon);}
+    .secure-note{text-align:center;font-size:0.75rem;color:var(--muted);margin-top:0.8rem;}
+    .secure-note i{color:var(--neon);}
+
+    /* SUCCESS */
+    .success-box{text-align:center;}
+    .success-box .icon{font-size:3rem;margin-bottom:1rem;}
+    .success-box h2{font-family:'Syne',sans-serif;font-size:1.5rem;margin-bottom:0.5rem;}
+    .success-box p{color:var(--muted);font-size:0.9rem;margin-bottom:1.5rem;}
+    .go-dashboard{display:inline-block;padding:0.85rem 2rem;border-radius:99px;background:linear-gradient(135deg,var(--neon2),var(--neon));color:#fff;font-weight:700;text-decoration:none;transition:0.3s;}
+    .go-dashboard:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,229,255,0.4);}
+
+    /* FAQ */
+    .faq{max-width:700px;margin:0 auto;padding:0 5% 4rem;}
+    .faq h2{font-family:'Syne',sans-serif;font-size:1.5rem;text-align:center;margin-bottom:2rem;}
+    .faq-item{background:var(--glass);border:1px solid var(--gb);border-radius:14px;padding:1.2rem 1.5rem;margin-bottom:0.8rem;}
+    .faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:0.4rem;}
+    .faq-item p{font-size:0.85rem;color:var(--muted);line-height:1.6;}
+  </style>
 </head>
 <body>
-    <nav>
-        <h1>Sabscribekaro</h1>
-        <a th:href="@{/}">Home</a>
-        <a th:href="@{/pricing}">Pricing</a>
-    </nav>
 
-    <main>
-        <h2>Pricing Plans</h2>
-        <p>Choose the plan that suits you.</p>
-    </main>
+<!-- NAV -->
+<nav>
+  <div class="logo">Sabscribekaro</div>
+  <div class="nav-right">
+    <a href="/dashboard" class="back-btn"><i class="fas fa-arrow-left"></i> Dashboard</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Simple, <span>Transparent</span> Pricing</h1>
+  <p>Start free. Upgrade when you need more power. No hidden charges!</p>
+</div>
+
+<!-- PLANS -->
+<div class="plans">
+
+  <!-- STARTER -->
+  <div class="plan">
+    <div class="plan-name">⚡ Starter</div>
+    <div class="plan-price">₹99 <span>/month</span></div>
+    <div class="plan-desc">Perfect for students and personal projects.</div>
+    <ul class="features">
+      <li><i class="fas fa-check"></i> 3 Websites</li>
+      <li><i class="fas fa-check"></i> 1 GB Storage</li>
+      <li><i class="fas fa-check"></i> Free SSL</li>
+      <li><i class="fas fa-check"></i> ZIP Upload</li>
+      <li><i class="fas fa-check"></i> File Manager</li>
+      <li><i class="fas fa-times"></i> Custom Domain</li>
+      <li><i class="fas fa-times"></i> Priority Support</li>
+    </ul>
+    <button class="plan-btn btn-outline" onclick="openPayment('Starter', '₹99')">Get Started →</button>
+  </div>
+
+  <!-- PRO (POPULAR) -->
+  <div class="plan popular">
+    <div class="popular-badge">🔥 Most Popular</div>
+    <div class="plan-name">🚀 Pro</div>
+    <div class="plan-price">₹299 <span>/month</span></div>
+    <div class="plan-desc">For freelancers and small businesses.</div>
+    <ul class="features">
+      <li><i class="fas fa-check"></i> 10 Websites</li>
+      <li><i class="fas fa-check"></i> 10 GB Storage</li>
+      <li><i class="fas fa-check"></i> Free SSL</li>
+      <li><i class="fas fa-check"></i> ZIP Upload</li>
+      <li><i class="fas fa-check"></i> File Manager</li>
+      <li><i class="fas fa-check"></i> Custom Domain</li>
+      <li><i class="fas fa-times"></i> Priority Support</li>
+    </ul>
+    <button class="plan-btn btn-primary" onclick="openPayment('Pro', '₹299')">Upgrade to Pro →</button>
+  </div>
+
+  <!-- BUSINESS -->
+  <div class="plan">
+    <div class="plan-name">💼 Business</div>
+    <div class="plan-price">₹799 <span>/month</span></div>
+    <div class="plan-desc">For agencies and growing businesses.</div>
+    <ul class="features">
+      <li><i class="fas fa-check"></i> Unlimited Websites</li>
+      <li><i class="fas fa-check"></i> 50 GB Storage</li>
+      <li><i class="fas fa-check"></i> Free SSL</li>
+      <li><i class="fas fa-check"></i> ZIP Upload</li>
+      <li><i class="fas fa-check"></i> File Manager</li>
+      <li><i class="fas fa-check"></i> Custom Domain</li>
+      <li><i class="fas fa-check"></i> Priority Support</li>
+    </ul>
+    <button class="plan-btn btn-pink" onclick="openPayment('Business', '₹799')">Get Business →</button>
+  </div>
+
+</div>
+
+<!-- FAQ -->
+<div class="faq">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-item">
+    <h3>🤔 Can I upgrade or downgrade anytime?</h3>
+    <p>Yes! You can change your plan anytime. Changes take effect immediately.</p>
+  </div>
+  <div class="faq-item">
+    <h3>💳 What payment methods do you accept?</h3>
+    <p>We accept UPI, Credit Card, Debit Card, Net Banking via Razorpay.</p>
+  </div>
+  <div class="faq-item">
+    <h3>🔒 Is my data safe?</h3>
+    <p>Yes! All websites are served over HTTPS with free SSL certificates.</p>
+  </div>
+  <div class="faq-item">
+    <h3>❌ What happens after trial expires?</h3>
+    <p>Your websites will be paused. Upgrade to keep them live!</p>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div class="modal-overlay" id="paymentModal">
+  <div class="modal-box" id="modalContent">
+    <h2>💳 Complete Payment</h2>
+    <p>Secure payment powered by Razorpay</p>
+
+    <div class="selected-plan">
+      <span>Selected Plan:</span>
+      <strong id="planName">Pro</strong>
+      <strong id="planPrice">₹299</strong>
+    </div>
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="payName" placeholder="Rahul Sharma" required/>
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="payEmail" placeholder="rahul@example.com" required/>
+    </div>
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" id="payPhone" placeholder="9876543210" required/>
+    </div>
+
+    <button class="pay-btn" onclick="processPayment()">
+      <i class="fas fa-lock"></i> Pay Securely →
+    </button>
+    <button class="modal-cancel-btn" onclick="closePayment()">Cancel</button>
+    <p class="secure-note"><i class="fas fa-shield-alt"></i> 100% Secure • SSL Encrypted • Razorpay</p>
+  </div>
+</div>
+
+<script>
+  let selectedPlan = '';
+  let selectedPrice = '';
+
+  function openPayment(plan, price) {
+    selectedPlan = plan;
+    selectedPrice = price;
+    document.getElementById('planName').textContent = plan;
+    document.getElementById('planPrice').textContent = price;
+    document.getElementById('paymentModal').classList.add('open');
+  }
+
+  function closePayment() {
+    document.getElementById('paymentModal').classList.remove('open');
+  }
+
+  // Close on outside click
+  document.getElementById('paymentModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('paymentModal')) closePayment();
+  });
+
+  function processPayment() {
+    const name = document.getElementById('payName').value;
+    const email = document.getElementById('payEmail').value;
+    const phone = document.getElementById('payPhone').value;
+
+    if (!name || !email || !phone) {
+      alert('Please fill all fields!');
+      return;
+    }
+
+    // Show success (Razorpay integration ke baad replace karna)
+    document.getElementById('modalContent').innerHTML = `
+      <div class="success-box">
+        <div class="icon">🎉</div>
+        <h2>Payment Successful!</h2>
+        <p>Welcome to <strong style="color:var(--neon);">${selectedPlan}</strong> plan!<br/>
+        Your websites are now live. Check your email for confirmation.</p>
+        <a href="/dashboard" class="go-dashboard">Go to Dashboard →</a>
+      </div>
+    `;
+  }
+</script>
 </body>
-<script>console.log("Sabscribekaro loaded!");</script>
 </html>

@@ -56,15 +56,5 @@ public class AuthController {
     public String pricingPage() {
         return "pricing";
     }
-
-    // ✅ YAHI MISSING THA — Payment success endpoint
-    @PostMapping("/payment/success")
-    @ResponseBody
-    public String paymentSuccess(@RequestParam String plan,
-                                  Authentication auth) {
-        if (auth != null) {
-            userService.activatePlan(auth.getName(), plan);
-        }
-        return "SUCCESS";
-    }
+    // ❌ paymentSuccess method NAHI hona chahiye yahan!
 }

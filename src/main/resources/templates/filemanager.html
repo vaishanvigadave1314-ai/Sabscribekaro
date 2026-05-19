@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>File Manager - Sabscribekaro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root{--neon:#00e5ff;--neon2:#7b2fff;--neon3:#ff3cac;--bg:#04050f;--glass:rgba(255,255,255,0.04);--gb:rgba(255,255,255,0.08);--text:#e8eaf6;--muted:#6e7a99;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 5%;background:rgba(4,5,15,0.85);border-bottom:1px solid var(--gb);backdrop-filter:blur(18px);}
+    .logo{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .back-btn{padding:0.45rem 1.1rem;border-radius:99px;background:var(--glass);border:1px solid var(--gb);color:var(--muted);font-size:0.83rem;text-decoration:none;transition:0.3s;}
+    .back-btn:hover{border-color:var(--neon);color:var(--neon);}
+    .main{max-width:900px;margin:0 auto;padding:2.5rem 5%;}
+    h1{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;margin-bottom:0.3rem;}
+    .subtitle{color:var(--muted);font-size:0.88rem;margin-bottom:2rem;}
+    .alert{padding:0.8rem 1.2rem;border-radius:12px;font-size:0.88rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem;}
+    .alert-err{background:rgba(255,64,129,0.1);border:1px solid rgba(255,64,129,0.3);color:#ff4081;}
+    .alert-ok{background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.3);color:#00e676;}
+    .file-list{background:var(--glass);border:1px solid var(--gb);border-radius:16px;overflow:hidden;}
+    .file-item{display:flex;align-items:center;justify-content:space-between;padding:0.9rem 1.3rem;border-bottom:1px solid var(--gb);transition:0.2s;}
+    .file-item:last-child{border-bottom:none;}
+    .file-item:hover{background:rgba(0,229,255,0.03);}
+    .file-name{display:flex;align-items:center;gap:0.6rem;font-size:0.88rem;}
+    .file-name i{color:var(--muted);font-size:0.85rem;}
+    .del-btn{padding:0.35rem 0.85rem;border-radius:99px;background:rgba(255,64,129,0.1);border:1px solid rgba(255,64,129,0.2);color:#ff4081;font-size:0.75rem;cursor:pointer;transition:0.3s;}
+    .del-btn:hover{background:rgba(255,64,129,0.2);}
+    .empty{text-align:center;padding:3rem;color:var(--muted);}
+    .empty span{font-size:2rem;display:block;margin-bottom:0.8rem;}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="logo">Sabscribekaro</div>
+  <a href="/dashboard" class="back-btn"><i class="fas fa-arrow-left"></i> Dashboard</a>
+</nav>
+
+<div class="main">
+  <h1>📁 File Manager</h1>
+  <p class="subtitle">Manage your website files</p>
+
+  <div th:if="${error}" class="alert alert-err">
+    <i class="fas fa-exclamation-circle"></i> <span th:text="${error}"></span>
+  </div>
+  <div th:if="${success}" class="alert alert-ok">
+    <i class="fas fa-check-circle"></i> <span th:text="${success}"></span>
+  </div>
+
+  <div class="file-list" th:if="${!#lists.isEmpty(files)}">
+    <div class="file-item" th:each="file : ${files}">
+      <div class="file-name">
+        <i class="fas fa-file-code"></i>
+        <span th:text="${file}"></span>
+      </div>
+      <form method="post" th:action="@{/files/{id}/delete(id=${websiteId})}"
+            onsubmit="return confirm('Delete this file?')">
+        <input type="hidden" name="fileName" th:value="${file}"/>
+        <button type="submit" class="del-btn">
+          <i class="fas fa-trash"></i> Delete
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="empty" th:if="${#lists.isEmpty(files)}">
+    <span>📭</span>
+    No files found!
+  </div>
+</div>
+</body>
+</html>

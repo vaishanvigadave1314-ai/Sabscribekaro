@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -14,15 +13,12 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    // Home
     @GetMapping("/")
     public String home() { return "index"; }
 
-    // Register Page
     @GetMapping("/register")
     public String registerPage() { return "register"; }
 
-    // Register Submit
     @PostMapping("/register")
     public String registerSubmit(@RequestParam String name,
                                   @RequestParam String email,
@@ -45,7 +41,6 @@ public class AuthController {
         return "redirect:/login?registered=true";
     }
 
-    // Login Page
     @GetMapping("/login")
     public String loginPage(@RequestParam(required = false) String registered,
                              @RequestParam(required = false) String error,
@@ -56,10 +51,20 @@ public class AuthController {
         if (logout != null)     model.addAttribute("success", "👋 Logged out successfully.");
         return "login";
     }
- // Yeh add karo AuthController.java mein:
+
     @GetMapping("/pricing")
-    public String pricingPage() { 
-        return "pricing"; 
+    public String pricingPage() {
+        return "pricing";
     }
-   
+
+    // ✅ YAHI MISSING THA — Payment success endpoint
+    @PostMapping("/payment/success")
+    @ResponseBody
+    public String paymentSuccess(@RequestParam String plan,
+                                  Authentication auth) {
+        if (auth != null) {
+            userService.activatePlan(auth.getName(), plan);
+        }
+        return "SUCCESS";
+    }
 }

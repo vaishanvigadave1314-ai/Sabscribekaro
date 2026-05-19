@@ -229,7 +229,6 @@
     document.getElementById('paymentModal').classList.remove('open');
   }
 
-  // Close on outside click
   document.getElementById('paymentModal').addEventListener('click', e => {
     if (e.target === document.getElementById('paymentModal')) closePayment();
   });
@@ -244,41 +243,50 @@
       return;
     }
 
-    // Show success (Razorpay integration ke baad replace karna)
-    document.getElementById('modalContent').innerHTML = `
-      <div class="success-box">
-        <div class="icon">🎉</div>
-        <h2>Payment Successful!</h2>
-        <p>Welcome to <strong style="color:var(--neon);">${selectedPlan}</strong> plan!<br/>
-        Your websites are now live. Check your email for confirmation.</p>
-        <a href="/dashboard" class="go-dashboard">Go to Dashboard →</a>
-      </div>
-    `;
-  }
-</script>
-function processPayment() {
-    const name = document.getElementById('payName').value;
-    const email = document.getElementById('payEmail').value;
-    const phone = document.getElementById('payPhone').value;
-
-    if (!name || !email || !phone) {
-        alert('Please fill all fields!');
-        return;
-    }
-
-    // ✅ Plan activate karo DB mein
+    // ✅ DB mein plan update karo
     fetch('/payment/success?plan=' + selectedPlan, {
-        method: 'POST'
+      method: 'POST'
     }).then(() => {
-        document.getElementById('modalContent').innerHTML = `
-          <div class="success-box">
-            <div class="icon">🎉</div>
-            <h2>Payment Successful!</h2>
-            <p>Welcome to <strong style="color:var(--neon);">${selectedPlan}</strong> plan!</p>
-            <a href="/dashboard" class="go-dashboard">Go to Dashboard →</a>
-          </div>
-        `;
+      document.getElementById('modalContent').innerHTML = `
+        <div class="success-box">
+          <div class="icon">🎉</div>
+          <h2>Payment Successful!</h2>
+          <p>Welcome to <strong style="color:var(--neon);">${selectedPlan}</strong> plan!</p>
+          <a href="/dashboard" class="go-dashboard">Go to Dashboard →</a>
+        </div>
+      `;
+    }).catch(() => {
+      alert('Something went wrong! Try again.');
     });
-}
+  }
+  
+  
+  function processPayment() {
+	    const name = document.getElementById('payName').value;
+	    const email = document.getElementById('payEmail').value;
+	    const phone = document.getElementById('payPhone').value;
+
+	    if (!name || !email || !phone) {
+	        alert('Please fill all fields!');
+	        return;
+	    }
+
+	    // ✅ Plan activate karo DB mein
+	    fetch('/payment/success?plan=' + selectedPlan, {
+	        method: 'POST'
+	    }).then(() => {
+	        document.getElementById('modalContent').innerHTML = `
+	          <div class="success-box">
+	            <div class="icon">🎉</div>
+	            <h2>Payment Successful!</h2>
+	            <p>Welcome to <strong style="color:var(--neon);">${selectedPlan}</strong> plan!</p>
+	            <a href="/dashboard" class="go-dashboard">Go to Dashboard →</a>
+	          </div>
+	        `;
+	    });
+	}
+</script>
+
+
 </body>
 </html>
